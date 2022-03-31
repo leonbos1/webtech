@@ -2,20 +2,31 @@
 
 $request_uri = explode('?', $_SERVER['REQUEST_URI'], 2);
 
-
 switch ($request_uri[0]) {
-    // Home page
+
     case '/':
-        require '../views/home.php';
+        require './views/home.php';
         break;
-    // About page
-    case '/about':
-        require '../views/about.php';
+
+    case '/wallet':
+        require './views/wallet.php';
         break;
-    // Everything else
+
+    case '/account':
+        require './views/account.php';
+        break;
+
+    case '/exchange':
+        require './views/exchange.php';
+        break;
+
+    case '/portfolio':
+        require './views/portfolio.php';
+        break;
+
     default:
         header('HTTP/1.0 404 Not Found');
-        require '../views/404.php';
+        require './views/404.php';
         break;
 }
 
