@@ -1,5 +1,3 @@
-<?php
-
-echo "<p>homepage</p>";
-
-?>
+<h1>
+    Homepage!
+</h1>

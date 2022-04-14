@@ -16,6 +16,10 @@ class Router
         $this->routes['get'][$path] = $callback;
     }
 
+    public function post($path,$callback) {
+        $this->routes['post'][$path] = $callback;
+    }
+
     public function resolve()
     {
         $path = $this->request->getPath();
@@ -24,7 +28,6 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
 
         if ($callback === false) {
-            //insert 404 view here
             return "Error 404 not found";
         }
 
@@ -32,11 +35,22 @@ class Router
             return $this->view($callback);
         }
 
-        return call_user_func($callback);
+        if (is_array($callback)) {
+            $callback[0] = new $callback[0]();
+        }
+
+        return call_user_func($callback, $this->request);
     }
 
-    public function view($view) {
-        include_once __DIR__."/../views/$view.php";
+    public function view($view, $params = [])
+    {
+        return Application::$app->view->renderView($view, $params);
     }
+
+    public function renderViewOnly($view, $params = [])
+    {
+        return Application::$app->view->renderViewOnly($view, $params);
+    }
+
 
 }
