@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 use app\core\Application;
 
@@ -17,7 +17,6 @@ $app->router->get('/exchange', 'exchange');
 $app->router->get('/portfolio','portfolio');
 
 $app->router->get('/wallet', 'wallet');
-
 
 $app->run();
 
