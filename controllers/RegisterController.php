@@ -5,16 +5,17 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
+use app\models\User;
 
-class LoginController extends Controller
+class RegisterController extends Controller
 {
 
     public function index() {
         $params = [];
-        return $this->render('login',$params);
+        return $this->render('register',$params);
     }
 
-    public function login(Request $req) {
+    public function register(Request $req) {
 
         $registerModel = new User();
 

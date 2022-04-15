@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">test1 <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="test">test1 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#">test2 <span class="sr-only">(current)</span></a>
@@ -21,7 +21,10 @@
             </li>
 
             <li class="nav-item active float-end">
-                <a class="nav-link" href="#">Login <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/login">Login <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active float-end">
+                <a class="nav-link" href="/register">Register <span class="sr-only">(current)</span></a>
             </li>
 
         </ul>

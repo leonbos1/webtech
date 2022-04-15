@@ -1,6 +1,6 @@
-<h2> Login </h2>
+<h2> Register </h2>
 
-<form action="/login" method="post">
+<form action="/register" method="post">
 
     <input name="username">
     <input name="password">

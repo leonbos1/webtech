@@ -8,17 +8,19 @@ class Application
     public Router $router;
     public Request $request;
     public View $view;
+    public Database $database;
     public ?Controller $controller = null;
     public static string $root_directory;
     public string $layout = 'main';
 
-    public function __construct($path)
+    public function __construct($path, array $config)
     {
         self::$app = $this;
         $this->request = new Request();
         $this->router = new Router($this->request);
         self::$root_directory = $path;
         $this->view = new View();
+        $this->database = new Database($config['database']);
     }
 
     public function run()
