@@ -1,0 +1,17 @@
+{
+    "name": "arendtop/webtech",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "AnoniemeBlobvis",
+            "email": "92373002+AnoniemeBlobvis@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.4"
+    }
+}
