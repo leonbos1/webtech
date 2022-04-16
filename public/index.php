@@ -32,7 +32,7 @@ $app->router->post('/register', [RegisterController::class,'register']);
 
 $app->router->get('/account', 'account');
 
-$app->router->get('/exchange', 'exchange');
+$app->router->get('/exchange', [ExchangeController::class,'exchange']);
 
 $app->router->get('/portfolio','portfolio');
 
