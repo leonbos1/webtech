@@ -2,7 +2,7 @@
 
 use app\core\Application;
 
-class m001_users {
+class m001_user {
 
     public function up() {
         $database = Application::$app->database;
@@ -16,7 +16,7 @@ class m001_users {
     }
 
     public function down() {
-        $db = \thecodeholic\phpmvc\Application::$app->db;
+        $db = Application::$app->db;
         $SQL = "DROP TABLE user;";
         $db->pdo->exec($SQL);
     }

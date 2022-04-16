@@ -67,9 +67,9 @@ class Database
     public function saveMigration(array $migrations)
     {
         $string = implode(',', array_map(fn($m) => "('$m')", $migrations));
-        $executable = $this->connection->prepare("insert into migrations (migration values
+        $executable = $this->connection->prepare("insert into migrations (migration) values
         $string
-        )");
+        ");
         $executable->execute();
 
     }
