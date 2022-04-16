@@ -17,7 +17,7 @@ switch ($request_uri[0]) {
         break;
 
     case '/exchange':
-        require './views/exchange.php';
+        require './views/exchange.html';
         break;
 
     case '/portfolio':
