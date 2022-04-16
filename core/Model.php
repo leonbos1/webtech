@@ -12,9 +12,4 @@ class Model
             }
         }
     }
-
-    public function validate() {
-        return true;
-    }
-
 }

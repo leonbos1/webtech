@@ -17,16 +17,17 @@ class RegisterController extends Controller
 
     public function register(Request $req) {
 
-        $registerModel = new User();
+        $register = new User();
 
-        $registerModel->load($req->getBody());
+        $register->load($req->getBody());
 
-        if ($registerModel->validate() && $registerModel->save()) {
+        if ($register->validate() === 'succes' && $register->register()) {
             return 'Show success page';
         }
 
+        $params = ['failMessage'=>$register->validate()];
 
-        return $this->render('register');
+        return $this->render('register',$params);
 
     }
 

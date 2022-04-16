@@ -21,11 +21,13 @@ class LoginController extends Controller
         $login = new Login();
         $login->load($req->getBody());
 
-        if ($login->validate() && $login->login()) {
+        if ($login->validLogin() === 'succes') {
             return 'Show success page';
         }
 
-        return $this->render('login');
+        $params = ['failMessage'=>$login->validLogin()];
+
+        return $this->render('login',$params);
 
     }
 

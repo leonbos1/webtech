@@ -11,7 +11,7 @@
                 <a class="nav-link" href="test">test1 <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="#">test2 <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/exchange">Exchange <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#">test3 <span class="sr-only">(current)</span></a>
