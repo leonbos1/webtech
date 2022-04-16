@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
+use app\models\Login;
+use app\models\User;
 
 class LoginController extends Controller
 {
@@ -16,16 +18,14 @@ class LoginController extends Controller
 
     public function login(Request $req) {
 
-        $registerModel = new User();
+        $login = new Login();
+        $login->load($req->getBody());
 
-        $registerModel->load($req->getBody());
-
-        if ($registerModel->validate() && $registerModel->save()) {
+        if ($login->validate() && $login->login()) {
             return 'Show success page';
         }
 
-
-        return $this->render('register');
+        return $this->render('login');
 
     }
 

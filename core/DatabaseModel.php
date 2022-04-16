@@ -9,7 +9,7 @@ use app\core\Model;
 
 abstract class DatabaseModel extends Model {
 
-    abstract public function tableName(): string;
+    abstract public static function tableName(): string;
 
     abstract public function attributes(): array;
 
@@ -32,5 +32,17 @@ abstract class DatabaseModel extends Model {
 
     }
 
+    public static function findOne($where) {
+        $tableName = static::tableName();
+        $attributes = array_keys($where);
+        $query = implode("AND ",array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $statement = Application::$app->database->connection->prepare("select * from $tableName where $query");
+        foreach ($where as $key => $item) {
+            $statement->bindValue(":$key",$item);
+        }
+
+        $statement->execute();
+        return $statement->fetchObject(static::class);
+    }
 
 }

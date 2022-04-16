@@ -10,7 +10,7 @@ class User extends DatabaseModel
     public string $username;
     public string $password;
 
-    public function tableName(): string
+    public static function tableName(): string
     {
         return 'user';
     }
@@ -31,12 +31,4 @@ class User extends DatabaseModel
             'password' => ['required']
         ];
     }
-
-    public function login($username, $password) {
-        return "login";
-        //Application::$app->database->connection->
-
-    }
-
-
 }
