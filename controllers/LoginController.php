@@ -5,21 +5,29 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
+use app\models\Login;
+use app\models\User;
 
 class LoginController extends Controller
 {
 
-    public function login() {
+    public function index() {
         $params = [];
         return $this->render('login',$params);
     }
 
-    public function verifyLogin(Request $req) {
+    public function login(Request $req) {
 
-        $body = $req->getBody();
+        $login = new Login();
+        $login->load($req->getBody());
 
-        echo $body['username'];
-        echo $body['password'];
+        if ($login->validLogin() === 'succes') {
+            return 'Show success page';
+        }
+
+        $params = ['failMessage'=>$login->validLogin()];
+
+        return $this->render('login',$params);
 
     }
 

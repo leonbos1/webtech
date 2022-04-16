@@ -1,12 +1,12 @@
 <style>
-    .login-error-p {
+    .register-error-p {
         color: red;
     }
 </style>
 
-<h2> Login </h2>
+<h2> Register </h2>
 
-<form action="/login" method="post">
+<form action="/register" method="post">
 
     <input name="username">
     <input type="password" name="password">
@@ -18,7 +18,7 @@
 <?php
 
 if (isset($failMessage)) {
-    echo "<p class='login-error-p'> $failMessage </p>";
+    echo "<p class='register-error-p'> $failMessage </p>";
 }
 
 ?>
