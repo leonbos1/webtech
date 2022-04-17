@@ -1,5 +1,6 @@
 <?php
 
+use app\controllers\ProfileController;
 use app\controllers\WalletController;
 use app\core\Application;
 use app\controllers\HomeController;
@@ -39,9 +40,9 @@ $app->router->get('/portfolio','portfolio');
 
 $app->router->get('/wallet', [WalletController::class,'index']);
 
-$app->router->get('/test', [TestController::class,'get']);
-
 $app->router->get('/logout', [LoginController::class,'logout']);
+
+$app->router->get('/profile', [ProfileController::class,'index']);
 
 $app->run();
 

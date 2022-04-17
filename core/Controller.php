@@ -7,8 +7,7 @@ class Controller
 
     public string $layout = 'home';
 
-    public function render($view, $params = []) {
-        $params = ['user'=>Application::$app->getUser()];
+    public function render($view, $params) {
         return Application::$app->router->view($view, $params);
 
     }

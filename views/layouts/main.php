@@ -20,7 +20,7 @@
             </li>
 
             <li class="nav-item active">
-                <a class="nav-link" href="/Profile">Profile <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
             </li>
 
             <?php }

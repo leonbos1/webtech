@@ -7,6 +7,7 @@ use app\core\DatabaseModel;
 
 class User extends DatabaseModel
 {
+    public int $id;
     public string $username;
     public string $password;
 
@@ -46,7 +47,5 @@ class User extends DatabaseModel
         }
 
         return 'succes';
-
-
     }
 }
