@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
 
     public function home() {
-        $params = [];
+        $params = ['user'=>Application::$app->getUser()];
         return $this->render('home',$params);
     }
 

@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="test">test1 <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/wallet">Wallet<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/exchange">Exchange <span class="sr-only">(current)</span></a>
@@ -20,6 +20,9 @@
                 <a class="nav-link" href="#">test4 <span class="sr-only">(current)</span></a>
             </li>
 
+            <?php use app\core\Application;
+            if (!Application::$app->LoggedIn()) { ?>
+
             <li class="nav-item active float-end">
                 <a class="nav-link" href="/login">Login <span class="sr-only">(current)</span></a>
             </li>
@@ -27,6 +30,12 @@
                 <a class="nav-link" href="/register">Register <span class="sr-only">(current)</span></a>
             </li>
 
+            <?php }
+            if (Application::$app->LoggedIn()) { ?>
+            <li class="nav-item active float-end">
+                <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
+            </li>
+            <?php }?>
         </ul>
     </div>
 </nav>

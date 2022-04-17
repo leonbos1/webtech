@@ -12,6 +12,8 @@ class Application
     public ?Controller $controller = null;
     public static string $root_directory;
     public string $layout = 'main';
+    public Session $session;
+    public string $user = 'guest';
 
     public function __construct($path, array $config)
     {
@@ -21,11 +23,30 @@ class Application
         self::$root_directory = $path;
         $this->view = new View();
         $this->database = new Database($config['database']);
+        $this->session = new Session();
+        session_start();
     }
 
     public function run()
     {
         echo $this->router->resolve();
     }
+
+    public function setUser(string $username)
+    {
+        Application::$app->session->set('user', $username);
+    }
+
+    public function getUser() {
+        return Application::$app->session->get('user');
+    }
+
+    public function LoggedIn() {
+        if (Application::$app->session->get('user') === 'guest') {
+            return false;
+        }
+        return true;
+    }
+
 
 }

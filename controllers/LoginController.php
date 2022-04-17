@@ -22,13 +22,19 @@ class LoginController extends Controller
         $login->load($req->getBody());
 
         if ($login->validLogin() === 'succes') {
-            return 'Show success page';
+            Application::$app->setUser($login->username);
+            $this->redirect('/');
         }
 
         $params = ['failMessage'=>$login->validLogin()];
 
         return $this->render('login',$params);
 
+    }
+
+    public function logout() {
+        Application::$app->setUser('guest');
+        $this->redirect('/login');
     }
 
 }

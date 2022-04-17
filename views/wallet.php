@@ -1,5 +1,7 @@
-<?php
+<h1>
+    Wallet
+</h1>
 
-echo "wallet";
-
-?>
+<p>Deze wallet is van:
+<?php echo $user
+?></p>
