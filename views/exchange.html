@@ -2,4 +2,12 @@
 
 {% block content %}
 <p>exchange</p>
+
+{% foreach($prices as $price): %}
+    {% if ($price[0]+1 < sizeof($prices)) { %}
+    <p>{{ $price[0] }}: {{ $price[1] }} <br></p>
+    {% } else { %}
+    <p>{{ $price[0] }}: {{ $price[1] }} (actueel) <br></p>
+    {% } %}
+{% endforeach; %}
 {% endblock %}

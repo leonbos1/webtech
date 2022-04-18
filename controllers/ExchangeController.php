@@ -12,8 +12,7 @@ class ExchangeController extends Controller
 {
     public function exchange() {
         $params = [];
-        Template::view('exchange.html');
-        //['coins' => $this->getCoinsData()]
+        Template::view('exchange.html', ['prices' => $this->getCoinPrices('bitcoin',30, 'daily')]);
     }
 
     public function handlePost(Request $req) {
@@ -24,12 +23,11 @@ class ExchangeController extends Controller
 
     }
 
-    public function getCoinsData()
+    public function getCoinPrices($coin, $days, $interval)
     {
-        // Initialize CURL:
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, 'https://api.coingecko.com/api/v3/coins/bitcoin');
+        curl_setopt($ch, CURLOPT_URL, 'https://api.coingecko.com/api/v3/coins/'.$coin.'/market_chart?vs_currency=eur&days='.$days.'&interval='.$interval);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -38,7 +36,7 @@ class ExchangeController extends Controller
         $headers[] = 'Accept: application/json';
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        $result = curl_exec($ch);
+        $curl_result = curl_exec($ch);
         if (curl_errno($ch))
         {
             echo 'Error:' . curl_error($ch);
@@ -47,8 +45,13 @@ class ExchangeController extends Controller
         curl_close($ch);
 
         // Decode JSON response:
-        $arr_result = json_decode($result, true);
+        $arr_result = json_decode($curl_result, true);
 
-        print_r($arr_result);
+        $prices = $arr_result['prices'];
+        for ($i = 0; $i < sizeof($prices); $i++) {
+            $prices[$i][0] = $i;
+        }
+
+        return $prices;
     }
 }
