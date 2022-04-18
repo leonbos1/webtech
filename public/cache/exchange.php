@@ -47,4 +47,12 @@
 
 <p>exchange</p>
 
+<?php foreach($prices as $price): ?>
+    <?php if ($price[0]+1 < sizeof($prices)) { ?>
+    <p><?php echo $price[0] ?>: <?php echo $price[1] ?> <br></p>
+    <?php } else { ?>
+    <p><?php echo $price[0] ?>: <?php echo $price[1] ?> (actueel) <br></p>
+    <?php } ?>
+<?php endforeach; ?>
+
 
