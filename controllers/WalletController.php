@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
-use app\middleware\AuthorizationMiddleware;
+use app\middleware\RedirectIfUnauthorized;
 use app\models\User;
 use app\models\Wallet;
 
@@ -12,7 +12,7 @@ class WalletController extends Controller
 {
     public function __construct()
     {
-        $this->addMiddleware(new AuthorizationMiddleware(['wallet']));
+        $this->addMiddleware(new RedirectIfUnauthorized(['wallet']));
     }
 
     public function wallet() {

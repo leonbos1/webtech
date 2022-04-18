@@ -4,7 +4,7 @@ namespace app\middleware;
 
 use app\core\Application;
 
-class AuthorizationMiddleware extends Middleware
+class RedirectIfUnauthorized extends Middleware
 {
     private array $pages;
 
@@ -13,7 +13,7 @@ class AuthorizationMiddleware extends Middleware
         $this->pages = $pages;
     }
 
-    public function exec()
+    public function handle()
     {
         if (!Application::$app->LoggedIn()) {
 

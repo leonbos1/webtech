@@ -5,5 +5,5 @@ namespace app\middleware;
 
 abstract class Middleware
 {
-    abstract public function exec();
+    abstract public function handle();
 }

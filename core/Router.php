@@ -31,26 +31,18 @@ class Router
             return "Error 404 not found";
         }
 
-        /*
-        if (is_string($callback)) {
-            return $this->view($callback);
+        $page = $callback[1];
+        $controller = new $callback[0];
+        $controller->setPage($page);
+
+        Application::$app->controller = $controller;
+
+        $middlewares = $controller->getMiddleware();
+
+        foreach ($middlewares as $m) {
+            $m->handle();
         }
-
-        else {
-        */
-            $page = $callback[1];
-            $controller = new $callback[0];
-            $controller->setPage($page);
-
-            Application::$app->controller = $controller;
-
-            $middlewares = $controller->getMiddleware();
-
-            foreach ($middlewares as $m) {
-                $m->exec();
-            }
-            $callback[0] = $controller;
-        //}
+        $callback[0] = $controller;
 
         return call_user_func($callback, $this->request);
     }
