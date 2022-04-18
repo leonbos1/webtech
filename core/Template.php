@@ -43,7 +43,7 @@ class Template {
     }
 
     static function includeFiles($file) {
-        $code = file_get_contents($file);
+        $code = file_get_contents(dirname(__DIR__) . "/views/" . $file);
         preg_match_all('/{% ?(extends|include) ?\'?(.*?)\'? ?%}/i', $code, $matches, PREG_SET_ORDER);
         foreach ($matches as $value) {
             $code = str_replace($value[0], self::includeFiles($value[2]), $code);

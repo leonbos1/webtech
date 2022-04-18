@@ -6,13 +6,14 @@ use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
 
-include 'core/Template.php';
+use app\core\Template;
 
 class ExchangeController extends Controller
 {
     public function exchange() {
         $params = [];
-        Template::view('exchange.html', ['coins' => $this->getCoinsData()]);
+        Template::view('exchange.html');
+        //['coins' => $this->getCoinsData()]
     }
 
     public function handlePost(Request $req) {

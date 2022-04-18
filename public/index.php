@@ -7,6 +7,7 @@ use app\controllers\HomeController;
 use app\controllers\LoginController;
 use app\controllers\TestController;
 use app\controllers\RegisterController;
+use app\controllers\ExchangeController;
 
 require_once __DIR__.'/../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
