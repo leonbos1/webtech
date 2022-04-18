@@ -11,12 +11,12 @@ use app\models\User;
 class LoginController extends Controller
 {
 
-    public function index() {
+    public function login() {
         $params = [];
         return $this->render('login',$params);
     }
 
-    public function login(Request $req) {
+    public function loginpost(Request $req) {
 
         $login = new Login();
         $login->load($req->getBody());

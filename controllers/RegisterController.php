@@ -10,12 +10,12 @@ use app\models\User;
 class RegisterController extends Controller
 {
 
-    public function index() {
+    public function register() {
         $params = [];
         return $this->render('register',$params);
     }
 
-    public function register(Request $req) {
+    public function registerpost(Request $req) {
 
         $register = new User();
 
