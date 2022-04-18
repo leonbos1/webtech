@@ -1,5 +1,6 @@
 <?php
 
+use app\controllers\PortfolioController;
 use app\controllers\ProfileController;
 use app\controllers\WalletController;
 use app\core\Application;
@@ -27,23 +28,21 @@ $app->router->get('/', [HomeController::class,'home']);
 
 $app->router->get('/home', [HomeController::class,'home']);
 
-$app->router->get('/login', [LoginController::class,'index']);
-$app->router->post('/login', [LoginController::class,'login']);
+$app->router->get('/login', [LoginController::class,'login']);
+$app->router->post('/login', [LoginController::class,'loginpost']);
 
-$app->router->get('/register', [RegisterController::class,'index']);
-$app->router->post('/register', [RegisterController::class,'register']);
-
-$app->router->get('/account', 'account');
+$app->router->get('/register', [RegisterController::class,'register']);
+$app->router->post('/register', [RegisterController::class,'registerpost']);
 
 $app->router->get('/exchange', [ExchangeController::class,'exchange']);
 
-$app->router->get('/portfolio','portfolio');
+$app->router->get('/portfolio',[PortfolioController::class,'portfolio']);
 
-$app->router->get('/wallet', [WalletController::class,'index']);
+$app->router->get('/wallet', [WalletController::class,'wallet']);
 
 $app->router->get('/logout', [LoginController::class,'logout']);
 
-$app->router->get('/profile', [ProfileController::class,'index']);
+$app->router->get('/profile', [ProfileController::class,'profile']);
 
 $app->run();
 

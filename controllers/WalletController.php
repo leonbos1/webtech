@@ -4,13 +4,18 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
+use app\middleware\AuthorizationMiddleware;
 use app\models\User;
 use app\models\Wallet;
 
 class WalletController extends Controller
 {
+    public function __construct()
+    {
+        $this->addMiddleware(new AuthorizationMiddleware(['wallet']));
+    }
 
-    public function index() {
+    public function wallet() {
 
         $username = Application::$app->getUser();
         $user = User::findOne(['username' => $username]);
