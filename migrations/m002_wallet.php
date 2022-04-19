@@ -9,12 +9,12 @@ class m002_wallet
         $statement = "CREATE TABLE wallet (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
-                euro DECIMAL,
-                BTC decimal,
-                ETH decimal,
-                LTC decimal,
-                XRP decimal,
-                DOGE decimal,
+                euro DECIMAL not null default 0,
+                BTC decimal not null default 0,
+                ETH decimal not null default 0,
+                LTC decimal not null default 0,
+                XRP decimal not null default 0,
+                DOGE decimal not null default 0,
                 last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) references user(id)
             )  ENGINE=INNODB;";
@@ -22,8 +22,8 @@ class m002_wallet
     }
 
     public function down() {
-        $db = Application::$app->db;
-        $SQL = "DROP TABLE wallet;";
-        $db->pdo->exec($SQL);
+        $database = Application::$app->database;
+        $statement = "DROP TABLE wallet;";
+        $database->connection->exec($statement);
     }
 }

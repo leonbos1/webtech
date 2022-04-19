@@ -3,7 +3,7 @@
 </h1>
 
 <p>Deze wallet is van:
-    <?php echo $user
+    <?php echo $user->username;
     ?></p>
 
 <?php

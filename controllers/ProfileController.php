@@ -17,10 +17,11 @@ class ProfileController extends Controller
 
     public function profile() {
         $user = Application::$app->getUser();
-        $created_at = User::findOne(['username' => $user])->created_at;
+        $username = $user->username;
+        $created_at = $user->created_at;
 
         $params = [
-            'user'=>$user,
+            'user'=>$username,
             'created_at'=>$created_at,
         ];
 

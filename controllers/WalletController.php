@@ -17,12 +17,11 @@ class WalletController extends Controller
 
     public function wallet() {
 
-        $username = Application::$app->getUser();
-        $user = User::findOne(['username' => $username]);
+        $user = Application::$app->getUser();
         $wallet = Wallet::getWalletByUser($user);
 
         $params = [
-            'user'=>$username,
+            'user'=>$user,
             'wallet'=>$wallet,
             ];
 

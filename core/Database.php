@@ -24,18 +24,18 @@ class Database
 
         $newMigrations = [];
         $files = scandir(Application::$root_directory.'/migrations');
-        $applyMigrations = array_diff($files, $migrations);
+        //$applyMigrations = array_diff($files, $migrations);
 
-        foreach ($applyMigrations as $mig) {
+        foreach ($files as $mig) {
 
-            if ($mig === '.' || $mig === '..') {
-                continue;
-            }
+            if ($mig !== '.' && $mig !== '..') {
                 require_once Application::$root_directory . '/migrations/' . $mig;
                 $filename = pathinfo($mig, PATHINFO_FILENAME);
                 $classname = new $filename();
+
                 $classname->up();
                 $newMigrations[] = $mig;
+            }
         }
         if (!empty($newMigrations)) {
             $this->saveMigration($newMigrations);

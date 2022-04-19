@@ -16,8 +16,8 @@ class m001_user {
     }
 
     public function down() {
-        $db = Application::$app->db;
-        $SQL = "DROP TABLE user;";
-        $db->pdo->exec($SQL);
+        $database = Application::$app->database;
+        $statement = "DROP TABLE user;";
+        $database->connection->exec($statement);
     }
 }

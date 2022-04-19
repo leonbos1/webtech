@@ -24,7 +24,6 @@ class LoginController extends Controller
         if ($login->validLogin() === 'succes') {
             $session = new Session();
             $session->login($login->username);
-            Application::$app->setUser($login->username);
             $this->redirect('/');
         }
 
@@ -36,7 +35,6 @@ class LoginController extends Controller
 
     public function logout() {
         Application::$app->response->removeCookie('session_id');
-        Application::$app->setUser('guest');
         $this->redirect('/login');
     }
 

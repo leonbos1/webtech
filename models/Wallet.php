@@ -6,7 +6,6 @@ use app\core\DatabaseModel;
 
 class Wallet extends DatabaseModel
 {
-
     public static function tableName(): string
     {
         return "wallet";
@@ -14,7 +13,7 @@ class Wallet extends DatabaseModel
 
     public function attributes(): array
     {
-        return ["euro","BTC","ETH","LTC","XRP","DOGE"];
+        return ["user_id", "euro","BTC","ETH","LTC","XRP","DOGE"];
     }
 
     public static function getWalletByUser($user) {

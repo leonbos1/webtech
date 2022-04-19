@@ -2,4 +2,4 @@
     Homepage!
 </h1>
 
-<?php echo "<p> $user </p>";
+<?php echo "<p> $user->username </p>";

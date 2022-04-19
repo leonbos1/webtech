@@ -4,6 +4,7 @@ namespace app\core;
 
 use app\core\Session;
 use app\models\Session as sessionModel;
+use app\models\User;
 
 class Application
 {
@@ -17,7 +18,6 @@ class Application
     public static string $root_directory;
     public string $layout = 'main';
     public Session $session;
-    public string $user = 'guest';
 
     public function __construct($path, array $config)
     {
@@ -35,15 +35,6 @@ class Application
     public function run()
     {
         echo $this->router->resolve();
-    }
-
-    public function setUser(string $username)
-    {
-        Application::$app->session->set('user', $username);
-    }
-
-    public function getUser() {
-        return Application::$app->session->get('user');
     }
 
     public function LoggedIn() {
@@ -73,6 +64,13 @@ class Application
 
         return true;
 
+    }
+
+    public function getUser() {
+        $session_id = Application::$app->response->getCookie('session_id');
+        $session = sessionModel::findOne(['session_id' => $session_id]);
+        $user_id = $session->user_id;
+        return User::findOne(['id'=>$user_id]);
     }
 
 }
