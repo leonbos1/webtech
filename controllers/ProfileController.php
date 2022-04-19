@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
-use app\middleware\RedirectIfUnauthorized;
+use app\middleware\Unauthorized;
 use app\models\User;
 
 class ProfileController extends Controller
@@ -12,7 +12,7 @@ class ProfileController extends Controller
 
     public function __construct()
     {
-        $this->addMiddleware(new RedirectIfUnauthorized(['profile']));
+        $this->addMiddleware(new Unauthorized(['profile']));
     }
 
     public function profile() {

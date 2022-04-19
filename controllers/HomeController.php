@@ -10,16 +10,10 @@ class HomeController extends Controller
 {
 
     public function home() {
-        $params = ['user'=>Application::$app->getUser()];
+        $params = [];
         return $this->render('home',$params);
     }
 
-    public function handlePost(Request $req) {
-
-        $body = $req->getBody();
-
-        echo $body['kaas'];
-
-    }
+    public function handlePost(Request $req) {}
 
 }

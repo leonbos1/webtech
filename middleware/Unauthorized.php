@@ -4,7 +4,7 @@ namespace app\middleware;
 
 use app\core\Application;
 
-class RedirectIfUnauthorized extends Middleware
+class Unauthorized extends Middleware
 {
     private array $pages;
 
@@ -18,14 +18,17 @@ class RedirectIfUnauthorized extends Middleware
         if (!Application::$app->LoggedIn()) {
 
             if ($this->pages === []) {
-                Application::$app->controller->redirect('/login');
+                Application::$app->response->statusCode(401);
+                exit();
             }
             foreach ($this->pages as $p) {
                 if ($p === Application::$app->controller->getPage()) {
-                    Application::$app->controller->redirect('/login');
+                    Application::$app->response->statusCode(401);
+                    exit();
                 }
             }
         }
+
     }
 
 }

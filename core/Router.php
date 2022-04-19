@@ -28,7 +28,8 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
 
         if ($callback === false) {
-            return "Error 404 not found";
+            Application::$app->response->statusCode(404);
+            exit();
         }
 
         $page = $callback[1];
@@ -51,11 +52,4 @@ class Router
     {
         return Application::$app->view->renderView($view, $params);
     }
-
-    public function renderViewOnly($view, $params = [])
-    {
-        return Application::$app->view->renderViewOnly($view, $params);
-    }
-
-
 }
