@@ -1,13 +1,30 @@
 {% extends layouts/main.html %}
 
 {% block content %}
-<p>exchange</p>
+<h1>Exchange (bitcoin)</h1>
 
-{% foreach($prices as $price): %}
-    {% if ($price[0]+1 < sizeof($prices)) { %}
-    <p>{{ $price[0] }}: {{ $price[1] }} <br></p>
-    {% } else { %}
-    <p>{{ $price[0] }}: {{ $price[1] }} (actueel) <br></p>
-    {% } %}
-{% endforeach; %}
+<div class="box-content box-no-padding">
+    <div class="table-responsive" style="margin: 25px;">
+        <table class="table table-bordered table-dark" style="margin: 0px">
+            <tr>
+                <th scope="col">dag</th>
+                {% foreach($prices as $price): %}
+                <td>{{ $price[0] }}</td>
+                {% endforeach; %}
+            </tr>
+            <tr>
+                <th scope="col">prijs</th>
+                {% foreach($prices as $price): %}
+                {% if ($price[0]+1 < sizeof($prices)) { %}
+                <td>{{ $price[1] }}</td>
+                {% } else { %}
+                <td>{{ $price[1] }} (actueel)</td>
+                {% } %}
+                {% endforeach; %}
+            </tr>
+        </table>
+        <div class="scrollable-area">
+        </div>
+    </div>
+</div>
 {% endblock %}
