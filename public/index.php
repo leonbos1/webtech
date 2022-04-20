@@ -39,6 +39,7 @@ $app->router->get('/exchange', [ExchangeController::class,'exchange']);
 $app->router->get('/portfolio',[PortfolioController::class,'portfolio']);
 
 $app->router->get('/wallet', [WalletController::class,'wallet']);
+$app->router->post('/wallet', [WalletController::class, 'addeuros']);
 
 $app->router->get('/logout', [LoginController::class,'logout']);
 

@@ -29,5 +29,19 @@ class WalletController extends Controller
         return $this->render('wallet', $params);
     }
 
+    public function addeuros() {
+
+        $user = Application::$app->getUser();
+        $wallet = Wallet::getWalletByUser($user);
+
+        $amount = Application::$app->request->getBody()['add_euro'];
+
+        if ($amount >= 0) {
+            $wallet->addEuros($amount);
+        }
+
+        Application::$app->controller->redirect('/wallet');
+    }
+
 
 }
