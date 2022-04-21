@@ -8,7 +8,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <?php  $loggedIn = \app\core\Application::$app->LoggedIn();
+            <?php $loggedIn = \app\core\Application::$app->LoggedIn();
             if ($loggedIn) { ?>
             <li class="nav-item active">
                 <a class="nav-link" href="/wallet">Wallet<span class="sr-only">(current)</span></a>
@@ -39,7 +39,7 @@
             <li class="nav-item active float-end">
                 <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
             </li>
-            <?php }?>
+            <?php } ?>
         </ul>
     </div>
 </nav>
