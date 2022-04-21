@@ -34,9 +34,8 @@ $app->router->post('/login', [LoginController::class,'loginpost']);
 $app->router->get('/register', [RegisterController::class,'register']);
 $app->router->post('/register', [RegisterController::class,'registerpost']);
 
-
-
 $app->router->get('/portfolio',[PortfolioController::class,'portfolio']);
+$app->router->post('/portfolio',[PortfolioController::class,'trade']);
 
 $app->router->get('/wallet', [WalletController::class,'wallet']);
 $app->router->post('/wallet', [WalletController::class, 'addeuros']);

@@ -1,11 +1,7 @@
-{% extends layouts/main.html %}
-
-{% block content %}
 <h1>Exchange</h1>
-
 <div class="box-content box-no-padding">
 
-    <form action="exchange" method="post">
+    <form action="/exchange" method="post">
         <select name="crypto" onchange="this.form.submit()">
             <option value="none" selected disabled hidden>Kies een crypto</option>
             {% foreach ($cryptos as $key => $item): %}
@@ -16,4 +12,4 @@
     </form>
 
 </div>
-{% endblock %}
+
