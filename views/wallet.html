@@ -10,7 +10,8 @@
     </p>
 
 {% foreach ($wallet->attributes() as $v): %}
-<p>{{ $wallet->$v }}</p>
+
+<p>{{$v}}: {{ $wallet->$v }}</p>
 {% endforeach; %}
 
 <p>Geld toevoegen:</p>

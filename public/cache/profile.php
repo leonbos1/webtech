@@ -1,4 +1,10 @@
 <?php class_exists('app\core\Template') or exit; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Cryptoshark</a>
@@ -45,5 +51,16 @@
 </nav>
 
 
+<body>
 
-<h1>Homepage</h1>
+<h1>Profile:
+    <?php echo $user ?>
+</h1>
+
+<h4>Created at
+    <?php echo $created_at ?>
+</h4>
+
+
+</body>
+</html>

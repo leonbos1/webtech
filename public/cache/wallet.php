@@ -54,7 +54,8 @@
     </p>
 
 <?php foreach ($wallet->attributes() as $v): ?>
-<p><?php echo $wallet->$v ?></p>
+
+<p><?php echo $v ?>: <?php echo $wallet->$v ?></p>
 <?php endforeach; ?>
 
 <p>Geld toevoegen:</p>

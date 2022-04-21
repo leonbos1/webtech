@@ -1,15 +1,4 @@
 <?php class_exists('app\core\Template') or exit; ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        .login-error-p {
-            color: red;
-        }
-    </style>
-</head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Cryptoshark</a>
@@ -56,22 +45,20 @@
 </nav>
 
 
-<body>
+<h1>Exchange</h1>
 
-<h2> Login </h2>
+<div class="box-content box-no-padding">
 
-<form action="/login" method="post">
+    <form action="exchange" method="post">
+        <select name="crypto" onchange="this.form.submit()">
+            <option value="none" selected disabled hidden>Kies een crypto</option>
+            <?php foreach ($cryptos as $key => $item): ?>
+            <option value=<?php echo $key ?>><?php echo $item ?></option>
+            <?php endforeach; ?>
 
-    <input name="username">
-    <input type="password" name="password">
-    <input type="submit">
+        </select>
+    </form>
+
+</div>
 
 
-</form>
-
-<?php if (isset($failMessage)) { ?>
-    <p class='login-error-p'> <?php echo $failMessage ?> </p>
-<?php } ?>
-
-</body>
-</html>

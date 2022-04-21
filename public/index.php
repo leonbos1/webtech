@@ -34,7 +34,7 @@ $app->router->post('/login', [LoginController::class,'loginpost']);
 $app->router->get('/register', [RegisterController::class,'register']);
 $app->router->post('/register', [RegisterController::class,'registerpost']);
 
-$app->router->get('/exchange', [ExchangeController::class,'exchange']);
+
 
 $app->router->get('/portfolio',[PortfolioController::class,'portfolio']);
 
@@ -45,8 +45,10 @@ $app->router->get('/logout', [LoginController::class,'logout']);
 
 $app->router->get('/profile', [ProfileController::class,'profile']);
 
-$cryptos = ['btc', 'xrp'];
+$app->router->get('/exchange', [ExchangeController::class,'exchange']);
+$app->router->post('/exchange', [ExchangeController::class,'exchange_select']);
 
+$cryptos = ['btc', 'xrp','ltc','doge','eth'];
 foreach ($cryptos as $crypto) {
     $app->router->get("/exchange/$crypto", [ExchangeController::class, 'crypto']);
 }

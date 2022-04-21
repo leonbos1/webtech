@@ -1,3 +1,4 @@
+<?php class_exists('app\core\Template') or exit; ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Cryptoshark</a>
@@ -7,7 +8,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <?php  $loggedIn = \app\core\Application::$app->LoggedIn();
+            <?php $loggedIn = \app\core\Application::$app->LoggedIn();
             if ($loggedIn) { ?>
             <li class="nav-item active">
                 <a class="nav-link" href="/wallet">Wallet<span class="sr-only">(current)</span></a>
@@ -38,9 +39,14 @@
             <li class="nav-item active float-end">
                 <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
             </li>
-            <?php }?>
+            <?php } ?>
         </ul>
     </div>
 </nav>
 
-{{content}}
+
+
+<h1>Portfolio</h1>
+
+
+

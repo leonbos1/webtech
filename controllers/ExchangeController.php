@@ -10,18 +10,41 @@ use app\core\Template;
 
 class ExchangeController extends Controller
 {
+    protected array $cryptos = [
+        'btc' => 'Bitcoin',
+        'xrp' => 'Ripple',
+        'ltc' => 'Litecoin',
+        'doge' => 'Dogecoin',
+        'eth' =>'Ethereum'
+    ];
+
     public function exchange() {
-        $params = [];
-        Template::view('exchange.html', ['prices' => $this->getCoinPrices('bitcoin',30, 'daily')]);
+        $params = ['cryptos'=>$this->cryptos];
+        Template::view('exchange_select.html', $params);
     }
 
-    public function crypto($crypto) {
-        Template::view('exchange.html', ['crypto' => $crypto]);
+    public function exchange_select(Request $request)
+    {
+        $crypto = $request->getBody()['crypto'];
+
+        Application::$app->controller->redirect("/exchange/$crypto");
+    }
+
+    public function crypto(Request $request) {
+        $crypto_type = str_replace("/exchange/","",$request->getPath());
+
+        $params = [
+            'prices' => $this->getCoinPrices($this->cryptos[$crypto_type],30, 'daily'),
+            'crypto_type' => $this->cryptos[$crypto_type]
+        ];
+
+        Template::view('exchange.html', $params);
     }
 
     public function getCoinPrices($coin, $days, $interval)
     {
         $ch = curl_init();
+        $coin = strtolower($coin);
 
         curl_setopt($ch, CURLOPT_URL, 'https://api.coingecko.com/api/v3/coins/'.$coin.'/market_chart?vs_currency=eur&days='.$days.'&interval='.$interval);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
