@@ -15,12 +15,8 @@ class ExchangeController extends Controller
         Template::view('exchange.html', ['prices' => $this->getCoinPrices('bitcoin',30, 'daily')]);
     }
 
-    public function handlePost(Request $req) {
-
-        $body = $req->getBody();
-
-        echo $body['kaas'];
-
+    public function crypto($crypto) {
+        Template::view('exchange.html', ['crypto' => $crypto]);
     }
 
     public function getCoinPrices($coin, $days, $interval)

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .register-error-p {
+            color: red;
+        }
+    </style>
+</head>
+{% extends layouts/main.html %}
+<body>
+
+<h2> Register </h2>
+
+<form action="/register" method="post">
+
+    <input name="username">
+    <input type="password" name="password">
+    <input type="submit">
+
+</form>
+
+{% if (isset($failMessage)) { %}
+    <p class='register-error-p'> {{ $failMessage }} </p>
+{% } %}
+
+</body>
+</html>

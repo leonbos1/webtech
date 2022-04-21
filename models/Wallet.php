@@ -49,4 +49,5 @@ class Wallet extends DatabaseModel
 
     }
 
+
 }

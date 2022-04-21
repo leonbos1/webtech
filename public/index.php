@@ -45,6 +45,14 @@ $app->router->get('/logout', [LoginController::class,'logout']);
 
 $app->router->get('/profile', [ProfileController::class,'profile']);
 
+$cryptos = ['btc', 'xrp'];
+
+foreach ($cryptos as $crypto) {
+    $app->router->get("/exchange/$crypto", [ExchangeController::class, 'crypto']);
+}
+
+
+
 $app->run();
 
 ?>

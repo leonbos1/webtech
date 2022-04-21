@@ -26,7 +26,7 @@ class WalletController extends Controller
             'wallet'=>$wallet,
             ];
 
-        return $this->render('wallet', $params);
+        Template::view('wallet.html', $params);
     }
 
     public function addeuros() {
@@ -42,6 +42,4 @@ class WalletController extends Controller
 
         Application::$app->controller->redirect('/wallet');
     }
-
-
 }

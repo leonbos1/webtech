@@ -1,4 +1,6 @@
 <?php class_exists('app\core\Template') or exit; ?>
+<link rel="stylesheet" href="../public/css/exchange.css">
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Cryptoshark</a>
@@ -48,7 +50,7 @@
 <h1>Exchange (bitcoin)</h1>
 
 <div class="box-content box-no-padding">
-    <div class="table-responsive" style="margin: 25px;">
+    <div class="table-responsive" style="width: 60%; margin: 25px;">
         <table class="table table-bordered table-dark" style="margin: 0px">
             <tr>
                 <th scope="col">dag</th>

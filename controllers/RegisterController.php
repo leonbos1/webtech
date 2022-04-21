@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
+use app\core\Template;
 use app\models\User;
 use app\models\Wallet;
 
@@ -13,7 +14,7 @@ class RegisterController extends Controller
 
     public function register() {
         $params = [];
-        return $this->render('register',$params);
+        Template::view('register.html', $params);
     }
 
     public function registerpost(Request $req) {
@@ -33,7 +34,7 @@ class RegisterController extends Controller
 
         $params = ['failMessage'=>$register->validate()];
 
-        return $this->render('register',$params);
+        Template::view('register.html', $params);
 
     }
 

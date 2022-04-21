@@ -1,16 +1,17 @@
+{% extends layouts/main.html %}
+
+{% block content %}
 <h1>
     Wallet
 </h1>
 
 <p>Deze wallet is van:
-    <?php echo $user->username;
-    ?></p>
+    {{$user->username}}
+    </p>
 
-<?php
-foreach ($wallet->attributes() as $v) {
-    echo "<p> $v: ". $wallet->$v ."</p>";
-}
-?>
+{% foreach ($wallet->attributes() as $v): %}
+<p>{{ $wallet->$v }}</p>
+{% endforeach; %}
 
 <p>Geld toevoegen:</p>
 <form method="post">
@@ -19,3 +20,4 @@ foreach ($wallet->attributes() as $v) {
     </label>
     <input type="submit">
 </form>
+{% endblock %}

@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
+use app\core\Template;
 use app\models\Login;
 use app\models\Session;
 
@@ -13,7 +14,7 @@ class LoginController extends Controller
 
     public function login() {
         $params = [];
-        return $this->render('login',$params);
+        Template::view('login.html', $params);
     }
 
     public function loginpost(Request $req) {
@@ -29,7 +30,7 @@ class LoginController extends Controller
 
         $params = ['failMessage'=>$login->validLogin()];
 
-        return $this->render('login',$params);
+        Template::view('login.html', $params);
 
     }
 

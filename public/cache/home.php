@@ -45,24 +45,5 @@
 </nav>
 
 
-<h1>
-    Wallet
-</h1>
 
-<p>Deze wallet is van:
-    <?php echo $user->username ?>
-    </p>
-
-<?php foreach ($wallet->attributes() as $v): ?>
-<p><?php echo $wallet->$v ?></p>
-<?php endforeach; ?>
-
-<p>Geld toevoegen:</p>
-<form method="post">
-    <label>
-        <input placeholder="Euro" name="add_euro">
-    </label>
-    <input type="submit">
-</form>
-
-
+<h1>Homepage</h1>

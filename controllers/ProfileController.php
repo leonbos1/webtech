@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
+use app\core\Template;
 use app\middleware\Unauthorized;
 use app\models\User;
 
@@ -25,6 +26,6 @@ class ProfileController extends Controller
             'created_at'=>$created_at,
         ];
 
-        return $this->render('profile',$params);
+        Template::view('profile.html', $params);
     }
 }
