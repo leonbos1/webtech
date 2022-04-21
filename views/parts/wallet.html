@@ -1,0 +1,12 @@
+<h1>
+    Wallet
+</h1>
+
+<p>Deze wallet is van:
+    {{$user->username}}
+    </p>
+
+{% foreach ($wallet->attributes() as $v): %}
+
+<p>{{$v}}: {{ $wallet->$v }}</p>
+{% endforeach; %}

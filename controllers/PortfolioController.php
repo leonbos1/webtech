@@ -2,14 +2,17 @@
 
 namespace app\controllers;
 
+use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Template;
 use app\models\Exchange;
+use app\models\Wallet;
 
 class PortfolioController extends Controller
 {
     protected array $cryptos = [
+        'euro' => 'Euro',
         'btc' => 'Bitcoin',
         'xrp' => 'Ripple',
         'ltc' => 'Litecoin',
@@ -18,9 +21,16 @@ class PortfolioController extends Controller
     ];
 
     public function portfolio() {
-        $params = [];
+        $user = Application::$app->getUser();
+        $wallet = Wallet::getWalletByUser($user);
 
-        Template::view('portfolio.html', $params);
+        $params = [
+            'user'=>$user,
+            'wallet'=>$wallet,
+            'cryptos'=>$this->cryptos
+        ];
+
+        Template::view('layouts/portfolio.html', $params);
     }
 
     public function trade(Request $request) {
@@ -32,7 +42,7 @@ class PortfolioController extends Controller
 
         $params = [];
 
-        Template::view('portfolio.hmtl', $params);
+        Template::view('layouts/portfolio.hmtl', $params);
     }
 
 }
