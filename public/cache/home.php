@@ -39,7 +39,17 @@
             <li class="nav-item active float-end">
                 <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
             </li>
-            <?php } ?>
+
+
+            <?php $isAdmin = \app\core\Application::$app->isAdmin();
+            if ($isAdmin) { ?>
+
+            <li class="nav-item active float-end">
+                <a class="nav-link" href="/admin">Admin Panel <span class="sr-only">(current)</span></a>
+            </li>
+
+            <?php }} ?>
+
         </ul>
     </div>
 </nav>

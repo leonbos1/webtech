@@ -73,4 +73,13 @@ class Application
         return User::findOne(['id'=>$user_id]);
     }
 
+    public function isAdmin() {
+        $user = Application::$app->getUser();
+
+        if ($user->role != 'admin') {
+            return false;
+        }
+        return true;
+    }
+
 }

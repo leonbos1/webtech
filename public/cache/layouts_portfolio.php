@@ -79,9 +79,7 @@
     <?php echo $user->username ?>
 </p>
 
-<?php echo $loopLength = count($currencies); ?>
-
-<?php for ($i = 0; $i < $loopLength; $i++ ): ?>
+<?php for ($i = 0; $i < count($currencies); $i++ ): ?>
 
 <p> <?php echo $amount[$i] ?> <?php echo $currencies[$i] ?> </p>
 

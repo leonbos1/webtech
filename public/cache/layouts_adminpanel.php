@@ -56,94 +56,11 @@
 
 
 
+<h1>admin</h1>
 
-
-<h1>Exchange</h1>
-<div class="box-content box-no-padding">
-
-    <form action="/exchange" method="post">
-        <select name="crypto" onchange="this.form.submit()">
-            <option value="none" selected disabled hidden>Kies een crypto</option>
-            <?php foreach ($cryptos as $key => $item): ?>
-            <option value=<?php echo $cryptoshorts[$key] ?>><?php echo $item ?></option>
-            <?php endforeach; ?>
-
-        </select>
-    </form>
-
-</div>
-
-
-
-<?php if (isset($crypto_type)) { ?>
-
-<h1><?php echo $crypto_type ?></h1>
-
-
-<div class="box-content box-no-padding">
-    <div class="table-responsive" style="width: 60%; margin: 25px;">
-        <table class="table table-bordered table-dark" style="margin: 0px">
-            <tr>
-                <th scope="col">dag</th>
-                <?php foreach($prices as $price): ?>
-                <td><?php echo $price[0] ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <th scope="col">prijs</th>
-                <?php foreach($prices as $price): ?>
-
-                <td><?php echo $price[1] ?></td>
-                <?php endforeach; ?>
-            </tr>
-        </table>
-        <div class="scrollable-area">
-        </div>
-    </div>
-</div>
-
-
-<script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
-<script>
-
-    <?php
-        $crypto_prices = array();
-        $dates = array();
-
-        foreach ($prices as $price) {
-            $crypto_prices[] = $price[1];
-            $dates[] = $price[0];
-        }
-
-    ?>
-
-    function graph(prices, dates) {
-        var trace1 = {
-            x: dates,
-            y: prices,
-            mode: 'lines+markers'
-        };
-
-        var data = [trace1];
-
-        Plotly.newPlot('crypto-graph', data);
-    }
-</script>
-
-<style>
-    .crypto_graph {
-        width: 70%;
-    }
-</style>
-<?php
-
-$crypto_prices = json_encode($crypto_prices);
-$dates = json_encode($dates);
-echo "<body onload='graph($crypto_prices, $dates)'>";
-
-?>
-
-<div class="crypto_graph" id="crypto-graph"></div>
-
-</body>
-<?php } ?>
+<h4>Crypto toevoegen</h4>
+<form action="/admin" method="post">
+    <input name="crypto_short" placeholder="Afkorting" type="text">
+    <input name="crypto" placeholder="Naam" type="text">
+    <input type="submit">
+</form>

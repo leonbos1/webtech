@@ -54,7 +54,7 @@
     <?php echo $user->username ?>
 </p>
 
-<?php echo $loopLength = count($currencies); ?>
+<?php $loopLength = count($currencies); ?>
 
 <?php for ($i = 0; $i < $loopLength; $i++ ): ?>
 

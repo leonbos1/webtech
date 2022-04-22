@@ -1,5 +1,6 @@
 <?php
 
+use app\controllers\AdminController;
 use app\controllers\PortfolioController;
 use app\controllers\ProfileController;
 use app\controllers\WalletController;
@@ -43,6 +44,9 @@ $app->router->post('/wallet', [WalletController::class, 'addeuros']);
 $app->router->get('/logout', [LoginController::class,'logout']);
 
 $app->router->get('/profile', [ProfileController::class,'profile']);
+
+$app->router->get('/admin', [AdminController::class,'admin']);
+$app->router->post('/admin', [AdminController::class,'addCrypto']);
 
 $app->router->get('/exchange', [ExchangeController::class,'exchange']);
 $app->router->post('/exchange', [ExchangeController::class,'exchange_select']);

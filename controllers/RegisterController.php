@@ -25,7 +25,7 @@ class RegisterController extends Controller
 
         if ($register->validate() === 'succes' && $register->register()) {
             $wallet = new Wallet();
-            $toLoad = ['user_id'=>$register->getIdByUsername($register->username),"euro"=>0, "BTC"=>0, "ETH"=>0, "LTC"=>0, "XRP"=>0, "DOGE"=>0];
+            $toLoad = ['user_id'=>$register->getIdByUsername($register->username)];
             $wallet->load($toLoad);
             $wallet->save();
 

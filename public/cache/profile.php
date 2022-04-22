@@ -1,4 +1,10 @@
 <?php class_exists('app\core\Template') or exit; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Cryptoshark</a>
@@ -55,95 +61,16 @@
 </nav>
 
 
+<body>
 
+<h1>Profile:
+    <?php echo $user ?>
+</h1>
 
+<h4>Created at
+    <?php echo $created_at ?>
+</h4>
 
-<h1>Exchange</h1>
-<div class="box-content box-no-padding">
-
-    <form action="/exchange" method="post">
-        <select name="crypto" onchange="this.form.submit()">
-            <option value="none" selected disabled hidden>Kies een crypto</option>
-            <?php foreach ($cryptos as $key => $item): ?>
-            <option value=<?php echo $cryptoshorts[$key] ?>><?php echo $item ?></option>
-            <?php endforeach; ?>
-
-        </select>
-    </form>
-
-</div>
-
-
-
-<?php if (isset($crypto_type)) { ?>
-
-<h1><?php echo $crypto_type ?></h1>
-
-
-<div class="box-content box-no-padding">
-    <div class="table-responsive" style="width: 60%; margin: 25px;">
-        <table class="table table-bordered table-dark" style="margin: 0px">
-            <tr>
-                <th scope="col">dag</th>
-                <?php foreach($prices as $price): ?>
-                <td><?php echo $price[0] ?></td>
-                <?php endforeach; ?>
-            </tr>
-            <tr>
-                <th scope="col">prijs</th>
-                <?php foreach($prices as $price): ?>
-
-                <td><?php echo $price[1] ?></td>
-                <?php endforeach; ?>
-            </tr>
-        </table>
-        <div class="scrollable-area">
-        </div>
-    </div>
-</div>
-
-
-<script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
-<script>
-
-    <?php
-        $crypto_prices = array();
-        $dates = array();
-
-        foreach ($prices as $price) {
-            $crypto_prices[] = $price[1];
-            $dates[] = $price[0];
-        }
-
-    ?>
-
-    function graph(prices, dates) {
-        var trace1 = {
-            x: dates,
-            y: prices,
-            mode: 'lines+markers'
-        };
-
-        var data = [trace1];
-
-        Plotly.newPlot('crypto-graph', data);
-    }
-</script>
-
-<style>
-    .crypto_graph {
-        width: 70%;
-    }
-</style>
-<?php
-
-$crypto_prices = json_encode($crypto_prices);
-$dates = json_encode($dates);
-echo "<body onload='graph($crypto_prices, $dates)'>";
-
-?>
-
-<div class="crypto_graph" id="crypto-graph"></div>
 
 </body>
-<?php } ?>
+</html>

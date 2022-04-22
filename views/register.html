@@ -16,8 +16,13 @@
 
 <form action="/register" method="post">
 
-    <input name="username">
-    <input type="password" name="password">
+    <input required name="username">
+    <input required type="password" name="password">
+    <select name="role" required>
+        <option value="none" selected disabled hidden>Kies een abonnement</option>
+        <option value="tier1">Tier 1</option>
+        <option value="tier2">Tier 2</option>
+    </select>
     <input type="submit">
 
 </form>
