@@ -8,6 +8,7 @@ use app\core\Request;
 
 use app\core\Template;
 use app\middleware\Unauthorized;
+use app\models\Crypto;
 use app\models\Exchange;
 
 class ExchangeController extends Controller
@@ -17,16 +18,11 @@ class ExchangeController extends Controller
         $this->addMiddleware(new Unauthorized(['exchange']));
     }
 
-    protected array $cryptos = [
-        'btc' => 'Bitcoin',
-        'xrp' => 'Ripple',
-        'ltc' => 'Litecoin',
-        'doge' => 'Dogecoin',
-        'eth' =>'Ethereum'
-    ];
-
     public function exchange() {
-        $params = ['cryptos'=>$this->cryptos];
+        $params = [
+            'cryptos'=>Crypto::getAllCryptoNames(),
+            'cryptoshorts'=>Crypto::getAllCryptoShorts()
+        ];
         Template::view('layouts/exchange.html', $params);
     }
 
@@ -49,7 +45,8 @@ class ExchangeController extends Controller
         $params = [
             'prices' => $prices,
             'crypto_type' => $this->cryptos[$crypto_type],
-            'cryptos'=>$this->cryptos
+            'cryptos'=>Crypto::getAllCryptoNames(),
+            'cryptoshorts'=>Crypto::getAllCryptoShorts()
         ];
 
         Template::view('layouts/exchange.html', $params);

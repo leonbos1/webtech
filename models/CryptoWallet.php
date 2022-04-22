@@ -18,26 +18,29 @@ class CryptoWallet extends DatabaseModel
         return ['crypto_wallet_id', 'wallet_id', 'crypto_short', 'amount'];
     }
 
-    public static function getCryptoWalletByUser($user) {
+    public static function getCryptoWalletsByUser($user) {
         $wallet = Wallet::getWalletByUser($user);
-        return CryptoWallet::findOne(["wallet_id" => $wallet->id]);
+        return CryptoWallet::findAll(["wallet_id" => $wallet->id]);
     }
 
-    public function addEuros($amount, $user) {
-        $tablename = self::tableName();
-        $new_amount = $this->getEuros() + $amount;
-        $wallet = Wallet::getWalletByUser($user);
+    public function addEuros($amount) {
+        if ($amount > 0) {
+            $tablename = self::tableName();
+            $old_amount = $this->getEuros();
+            $new_amount = $old_amount + $amount;
 
-        $statement = Application::$app->database->connection->prepare("update $tablename set amount = $new_amount where wallet_id = $wallet->id and crypto_short = eu");
+            $statement = Application::$app->database->connection->prepare("update $tablename set amount = $new_amount 
+                    where crypto_wallet_id = $this->crypto_wallet_id and crypto_short = 'eu'");
 
-        $statement->execute();
+            $statement->execute();
+            Crypto::getAllCryptoNames();
+        }
     }
 
-    public function getEuros($user)
+
+    public function getEuros()
     {
-        $wallet = Wallet::getWalletByUser($user);
-
-        return CryptoWallet::findOne(['wallet_id'=>$wallet->id, 'crypto_short'=>'eu'])->amount;
+        return CryptoWallet::findOne(['crypto_short'=>'eu'])->amount;
     }
 
 

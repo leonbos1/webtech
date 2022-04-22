@@ -58,4 +58,13 @@ abstract class DatabaseModel extends Model {
         return $statement->fetchAll();
     }
 
+    public static function getAll() {
+        $tableName = static::tableName();
+
+        $statement = Application::$app->database->connection->prepare("select * from $tableName");
+
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
 }

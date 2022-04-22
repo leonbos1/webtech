@@ -5,7 +5,7 @@
         <select name="crypto" onchange="this.form.submit()">
             <option value="none" selected disabled hidden>Kies een crypto</option>
             {% foreach ($cryptos as $key => $item): %}
-            <option value={{$key}}>{{$item}}</option>
+            <option value={{$cryptoshorts[$key]}}>{{$item}}</option>
             {% endforeach; %}
 
         </select>

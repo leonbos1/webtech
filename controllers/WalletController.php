@@ -44,12 +44,21 @@ class WalletController extends Controller
 
         $user = Application::$app->getUser();
         $wallet = Wallet::getWalletByUser($user);
+        $cryptowallets = CryptoWallet::getCryptoWalletsByUser($user);
+
+        $crypto_wallet_id = 0;
+
+        foreach ($cryptowallets as $cryptowallet) {
+            if($cryptowallet['crypto_short'] == 'eu') {
+                $crypto_wallet_id = $cryptowallet['crypto_wallet_id'];
+            }
+        }
+
+        $cryptowallet = CryptoWallet::findOne(['crypto_wallet_id'=>$crypto_wallet_id]);
 
         $amount = Application::$app->request->getBody()['add_euro'];
 
-        if ($amount >= 0) {
-            $wallet->addEuros($amount);
-        }
+        $cryptowallet->addEuros($amount);
 
         Application::$app->controller->redirect('/wallet');
     }

@@ -18,4 +18,28 @@ class Crypto extends DatabaseModel
         return ['crypto_short', 'crypto'];
     }
 
+    public static function getAllCryptoShorts() {
+        $result = array();
+
+        $all = Crypto::getAll();
+
+        foreach ($all as $value) {
+            $result[] = $value['crypto_short'];
+        }
+
+        return $result;
+    }
+
+    public static function getAllCryptoNames() {
+        $result = array();
+
+        $all = Crypto::getAll();
+
+        foreach ($all as $value) {
+            $result[] = $value['crypto'];
+        }
+
+        return $result;
+    }
+
 }
