@@ -6,6 +6,7 @@ use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Template;
+use app\models\CryptoWallet;
 use app\models\User;
 use app\models\Wallet;
 
@@ -24,10 +25,16 @@ class RegisterController extends Controller
         $register->load($req->getBody());
 
         if ($register->validate() === 'succes' && $register->register()) {
+            $user_id = User::getIdByUsername($register->username);
             $wallet = new Wallet();
-            $toLoad = ['user_id'=>$register->getIdByUsername($register->username)];
-            $wallet->load($toLoad);
+            $wallet->load(['user_id'=>$user_id]);
             $wallet->save();
+            $wallet_id = Wallet::findOne(["user_id"=>$user_id])->id;
+
+            $crypto_wallet = new CryptoWallet();
+
+            $crypto_wallet->load(['wallet_id'=>$wallet_id,'crypto_short'=>'eu','amount'=>0]);
+            $crypto_wallet->save();
 
             Application::$app->controller->redirect('/login');
         }

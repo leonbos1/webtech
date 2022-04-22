@@ -39,7 +39,17 @@
             <li class="nav-item active float-end">
                 <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
             </li>
-            <?php } ?>
+
+
+            <?php $isAdmin = \app\core\Application::$app->isAdmin();
+            if ($isAdmin) { ?>
+
+            <li class="nav-item active float-end">
+                <a class="nav-link" href="/admin">Admin Panel <span class="sr-only">(current)</span></a>
+            </li>
+
+            <?php }} ?>
+
         </ul>
     </div>
 </nav>
@@ -54,9 +64,7 @@
     <?php echo $user->username ?>
 </p>
 
-<?php $loopLength = count($currencies); ?>
-
-<?php for ($i = 0; $i < $loopLength; $i++ ): ?>
+<?php for ($i = 0; $i < count($currencies); $i++ ): ?>
 
 <p> <?php echo $amount[$i] ?> <?php echo $currencies[$i] ?> </p>
 

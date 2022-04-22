@@ -15,7 +15,7 @@ class Wallet extends DatabaseModel
 
     public function attributes(): array
     {
-        return ['id','user_id'];
+        return ['user_id'];
     }
 
     public static function getWalletByUser($user) {

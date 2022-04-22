@@ -49,7 +49,7 @@ class User extends DatabaseModel
         return 'succes';
     }
 
-    public function getIdByUsername($username) {
+    public static function getIdByUsername($username) {
 
         $user = User::findOne(['username'=>$username]);
         return $user->id;

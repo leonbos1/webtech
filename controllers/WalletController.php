@@ -40,7 +40,7 @@ class WalletController extends Controller
         Template::view('layouts/wallet.html', $params);
     }
 
-    public function addeuros() {
+    public function addEuros() {
 
         $user = Application::$app->getUser();
         $wallet = Wallet::getWalletByUser($user);
@@ -56,9 +56,15 @@ class WalletController extends Controller
 
         $cryptowallet = CryptoWallet::findOne(['crypto_wallet_id'=>$crypto_wallet_id]);
 
+        if (!$cryptowallet) {
+            $cryptowallet = new CryptoWallet();
+            $cryptowallet->load(['wallet_id'=>$wallet->id,'crypto_short'=>'eu','amount'=>0]);
+            $cryptowallet->save();
+        }
+
         $amount = Application::$app->request->getBody()['add_euro'];
 
-        $cryptowallet->addEuros($amount);
+        $cryptowallet->addEuro($amount);
 
         Application::$app->controller->redirect('/wallet');
     }

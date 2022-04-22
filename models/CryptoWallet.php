@@ -15,7 +15,7 @@ class CryptoWallet extends DatabaseModel
 
     public function attributes(): array
     {
-        return ['crypto_wallet_id', 'wallet_id', 'crypto_short', 'amount'];
+        return ['wallet_id', 'crypto_short', 'amount'];
     }
 
     public static function getCryptoWalletsByUser($user) {
@@ -23,7 +23,8 @@ class CryptoWallet extends DatabaseModel
         return CryptoWallet::findAll(["wallet_id" => $wallet->id]);
     }
 
-    public function addEuros($amount) {
+    public function addEuro($amount) {
+
         if ($amount > 0) {
             $tablename = self::tableName();
             $old_amount = $this->getEuros();
@@ -31,7 +32,6 @@ class CryptoWallet extends DatabaseModel
 
             $statement = Application::$app->database->connection->prepare("update $tablename set amount = $new_amount 
                     where crypto_wallet_id = $this->crypto_wallet_id and crypto_short = 'eu'");
-
             $statement->execute();
             Crypto::getAllCryptoNames();
         }
