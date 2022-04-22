@@ -13,8 +13,11 @@
             <tr>
                 <th scope="col">prijs</th>
                 {% foreach($prices as $price): %}
-
+                {% if ($price[0]+1 < sizeof($prices)) { %}
                 <td>{{ $price[1] }}</td>
+                {% } else { %}
+                <td>{{ $price[1] }} (actueel)</td>
+                {% } %}
                 {% endforeach; %}
             </tr>
         </table>
