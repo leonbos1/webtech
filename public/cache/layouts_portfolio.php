@@ -69,7 +69,7 @@
 
 </form>
 
-<p>dfghdsgh</p>
+<p></p>
 
 <h1>
     Wallet

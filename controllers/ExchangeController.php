@@ -33,9 +33,15 @@ class ExchangeController extends Controller
 
     public function crypto(Request $request) {
         $crypto_type = str_replace("/exchange/","",$request->getPath());
+        $prices = Exchange::getCoinPrices($this->cryptos[$crypto_type],30, 'daily');
+
+        for ($i=0; $i < count($prices); $i++) {
+            $date_int = 30 - $prices[$i][0];
+            $prices[$i][0] = date("Y-m-d", strtotime("-$date_int day", time()));
+        }
 
         $params = [
-            'prices' => Exchange::getCoinPrices($this->cryptos[$crypto_type],30, 'daily'),
+            'prices' => $prices,
             'crypto_type' => $this->cryptos[$crypto_type],
             'cryptos'=>$this->cryptos
         ];
