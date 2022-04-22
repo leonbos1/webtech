@@ -52,12 +52,15 @@
 
 <p>Deze wallet is van:
     <?php echo $user->username ?>
-    </p>
+</p>
 
-<?php foreach ($wallet->attributes() as $v): ?>
+<?php echo $loopLength = count($currencies); ?>
 
-<p><?php echo $v ?>: <?php echo $wallet->$v ?></p>
-<?php endforeach; ?>
+<?php for ($i = 0; $i < $loopLength; $i++ ): ?>
+
+<p> <?php echo $amount[$i] ?> <?php echo $currencies[$i] ?> </p>
+
+<?php endfor; ?>
 
 
 

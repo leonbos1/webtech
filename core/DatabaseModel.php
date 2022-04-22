@@ -45,4 +45,17 @@ abstract class DatabaseModel extends Model {
         return $statement->fetchObject(static::class);
     }
 
+    public static function findAll($where) {
+        $tableName = static::tableName();
+        $attributes = array_keys($where);
+        $query = implode("AND ",array_map(fn($attr) => "$attr = :$attr", $attributes));
+        $statement = Application::$app->database->connection->prepare("select * from $tableName where $query");
+        foreach ($where as $key => $item) {
+            $statement->bindValue(":$key",$item);
+        }
+
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
 }

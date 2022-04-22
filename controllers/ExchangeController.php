@@ -7,10 +7,16 @@ use app\core\Controller;
 use app\core\Request;
 
 use app\core\Template;
+use app\middleware\Unauthorized;
 use app\models\Exchange;
 
 class ExchangeController extends Controller
 {
+    public function __construct()
+    {
+        $this->addMiddleware(new Unauthorized(['exchange']));
+    }
+
     protected array $cryptos = [
         'btc' => 'Bitcoin',
         'xrp' => 'Ripple',

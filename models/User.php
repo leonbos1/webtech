@@ -18,7 +18,7 @@ class User extends DatabaseModel
 
     public function attributes(): array
     {
-        return ['username','password'];
+        return ['username','password','role'];
     }
 
     public function register() {

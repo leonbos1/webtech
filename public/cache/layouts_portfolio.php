@@ -50,15 +50,15 @@
 
 <form action="portfolio" method="post">
 
-    <select>
+    <select name="firstcurrency">
         <option value="none" selected disabled hidden>Kies een valuta</option>
         <?php foreach ($cryptos as $key => $item): ?>
         <option value=<?php echo $key ?>><?php echo $item ?></option>
         <?php endforeach; ?>
     </select>
 
-    <input type="number" min="0">
-    <select>
+    <input name="amount" type="number" min="0">
+    <select name="secondcurrency">
         <option value="none" selected disabled hidden>Kies een valuta</option>
         <?php foreach ($cryptos as $key => $item): ?>
         <option value=<?php echo $key ?>><?php echo $item ?></option>
@@ -77,11 +77,14 @@
 
 <p>Deze wallet is van:
     <?php echo $user->username ?>
-    </p>
+</p>
 
-<?php foreach ($wallet->attributes() as $v): ?>
+<?php echo $loopLength = count($currencies); ?>
 
-<p><?php echo $v ?>: <?php echo $wallet->$v ?></p>
-<?php endforeach; ?>
+<?php for ($i = 0; $i < $loopLength; $i++ ): ?>
+
+<p> <?php echo $amount[$i] ?> <?php echo $currencies[$i] ?> </p>
+
+<?php endfor; ?>
 
 

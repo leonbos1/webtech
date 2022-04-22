@@ -2,15 +2,15 @@
 
 <form action="portfolio" method="post">
 
-    <select>
+    <select name="firstcurrency">
         <option value="none" selected disabled hidden>Kies een valuta</option>
         {% foreach ($cryptos as $key => $item): %}
         <option value={{$key}}>{{$item}}</option>
         {% endforeach; %}
     </select>
 
-    <input type="number" min="0">
-    <select>
+    <input name="amount" type="number" min="0">
+    <select name="secondcurrency">
         <option value="none" selected disabled hidden>Kies een valuta</option>
         {% foreach ($cryptos as $key => $item): %}
         <option value={{$key}}>{{$item}}</option>

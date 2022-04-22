@@ -4,9 +4,12 @@
 
 <p>Deze wallet is van:
     {{$user->username}}
-    </p>
+</p>
 
-{% foreach ($wallet->attributes() as $v): %}
+{{ $loopLength = count($currencies); }}
 
-<p>{{$v}}: {{ $wallet->$v }}</p>
-{% endforeach; %}
+{% for ($i = 0; $i < $loopLength; $i++ ): %}
+
+<p> {{ $amount[$i] }} {{ $currencies[$i] }} </p>
+
+{% endfor; %}
