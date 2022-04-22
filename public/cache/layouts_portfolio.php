@@ -58,12 +58,15 @@
 
 <h1>Portfolio</h1>
 
+
+<p>Currencies traden:</p>
+
 <form action="portfolio" method="post">
 
     <select name="firstcurrency">
         <option value="none" selected disabled hidden>Kies een valuta</option>
         <?php foreach ($owned_cryptos as $key => $item): ?>
-        <option value=<?php echo $key ?>><?php echo $item ?></option>
+        <option value=<?php echo $item ?>><?php echo $item ?></option>
         <?php endforeach; ?>
     </select>
 
@@ -78,8 +81,6 @@
     <input type="submit">
 
 </form>
-
-<p></p>
 
 <h1>
     Wallet

@@ -15,7 +15,7 @@ class Database
         $password = $config['password'];
 
         $this->connection = new PDO($domain_service_name, $username,$password);
-
+        $this->connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
     }
 
     public function migrations() {
@@ -62,7 +62,6 @@ class Database
         return $statement->fetchAll($this->connection::FETCH_COLUMN);
 
     }
-
 
     public function saveMigration(array $migrations)
     {

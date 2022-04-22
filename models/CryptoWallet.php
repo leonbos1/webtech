@@ -23,25 +23,26 @@ class CryptoWallet extends DatabaseModel
         return CryptoWallet::findAll(["wallet_id" => $wallet->id]);
     }
 
-    public function addEuro($amount) {
+    public static function getCryptoWalletsByWalletId($wallet_id) {
+        return CryptoWallet::findAll(["wallet_id" => $wallet_id]);
+    }
+
+    public static function addEuro($amount) {
+        $user_id = Application::$app->getUser()->id;
 
         if ($amount > 0) {
-            $tablename = self::tableName();
-            $old_amount = $this->getEuros();
-            $new_amount = $old_amount + $amount;
-
-            $statement = Application::$app->database->connection->prepare("update $tablename set amount = $new_amount 
-                    where crypto_wallet_id = $this->crypto_wallet_id and crypto_short = 'eu'");
-            $statement->execute();
-            Crypto::getAllCryptoNames();
+            $old_amount = self::getEuros($user_id);
         }
     }
 
-
-    public function getEuros()
+    public static function getEuros($user_id)
     {
-        return CryptoWallet::findOne(['crypto_short'=>'eu'])->amount;
+        $user = User::findOne(['id'=>$user_id]);
+        $wallet = Wallet::getWalletByUser($user);
+        $cryptowallets = CryptoWallet::findAll(['wallet_id'=>$wallet->id]);
+
+        foreach ($cryptowallets as $cryptowallet) {
+            return $cryptowallet['amount'];
+        }
     }
-
-
 }

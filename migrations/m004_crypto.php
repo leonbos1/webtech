@@ -11,6 +11,9 @@ class m004_crypto
                 crypto varchar(45)
             )  ENGINE=INNODB;";
         $database->connection->exec($statement);
+
+        $statement = "insert into crypto (crypto_short, crypto) values ('eu','Euro')";
+        $database->connection->exec($statement);
     }
 
     public function down() {

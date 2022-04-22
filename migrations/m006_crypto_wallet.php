@@ -7,7 +7,7 @@ class m006_crypto_wallet
     public function up() {
         $database = Application::$app->database;
         $statement = "CREATE TABLE crypto_wallet (
-                crypto_wallet_id int primary key,
+                crypto_wallet_id int auto_increment primary key,
                 wallet_id int not null,
                 crypto_short varchar(45) not null,
                 amount int,

@@ -62,7 +62,7 @@ class Exchange
         // Decode JSON response:
         $arr_result = json_decode($curl_result, true);
 
-        return $arr_result;
+        return $arr_result['prices'][1][1];
     }
 
 }

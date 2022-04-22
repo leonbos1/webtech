@@ -51,11 +51,25 @@ class PortfolioController extends Controller
         $secondCurrency = $request->getBody()['secondcurrency'];
         $amount = $request->getBody()['amount'];
 
-        var_dump( Exchange::getCurrentPrice(strtolower($secondCurrency)) );
+        $wallet = Wallet::getWalletByUser(Application::$app->getUser());
+
+        $amount_currency_1 = CryptoWallet::getAmountOfCurrency($wallet->id, $firstCurrency);
+
+        if ($amount > $amount_currency_1) {
+            return "amount too big";
+        }
+
+        $value1 = $amount_currency_1;
+        if ($firstCurrency != 'eu') {
+            $value1 = Exchange::getCurrentPrice($firstCurrency);
+        }
+
+        $value2 = Exchange::getCurrentPrice($secondCurrency);
+
 
         $params = [];
 
-        Template::view('layouts/portfolio.hmtl', $params);
+        $this->redirect('/portfolio');
     }
 
 }
