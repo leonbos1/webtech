@@ -19,10 +19,25 @@ class ExchangeController extends Controller
     }
 
     public function exchange() {
+        $cryptos = Crypto::getAllCryptoNames();
+        $cryptoshorts = Crypto::getAllCryptoShorts();
+
+        foreach ($cryptos as $key=>$value) {
+            if ($value == 'Euro') {
+                unset($cryptos[$key]);
+            }
+        }
+        foreach ($cryptoshorts as $key=>$value) {
+            if ($value == 'eu') {
+                unset($cryptoshorts[$key]);
+            }
+        }
+
         $params = [
-            'cryptos'=>Crypto::getAllCryptoNames(),
-            'cryptoshorts'=>Crypto::getAllCryptoShorts()
+            'cryptos'=> $cryptos,
+            'cryptoshorts'=> $cryptoshorts
         ];
+
         Template::view('layouts/exchange.html', $params);
     }
 
@@ -35,7 +50,9 @@ class ExchangeController extends Controller
 
     public function crypto(Request $request) {
         $crypto_type = str_replace("/exchange/","",$request->getPath());
-        $prices = Exchange::getCoinPrices($this->cryptos[$crypto_type],30, 'daily');
+        $crypto_name = Crypto::findOne(['crypto_short'=>$crypto_type])->crypto;
+
+        $prices = Exchange::getCoinPrices(strtolower($crypto_name),30, 'daily');
 
         for ($i=0; $i < count($prices); $i++) {
             $date_int = 30 - $prices[$i][0];
@@ -44,7 +61,7 @@ class ExchangeController extends Controller
 
         $params = [
             'prices' => $prices,
-            'crypto_type' => $this->cryptos[$crypto_type],
+            'crypto_type' => $crypto_type,
             'cryptos'=>Crypto::getAllCryptoNames(),
             'cryptoshorts'=>Crypto::getAllCryptoShorts()
         ];

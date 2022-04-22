@@ -47,8 +47,8 @@ $app->router->get('/profile', [ProfileController::class,'profile']);
 $app->router->get('/exchange', [ExchangeController::class,'exchange']);
 $app->router->post('/exchange', [ExchangeController::class,'exchange_select']);
 
-$cryptos = ['btc', 'xrp','ltc','doge','eth'];
-foreach ($cryptos as $crypto) {
+$crypto_shorts = \app\models\Crypto::getAllCryptoShorts();
+foreach ($crypto_shorts as $crypto) {
     $app->router->get("/exchange/$crypto", [ExchangeController::class, 'crypto']);
 }
 

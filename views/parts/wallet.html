@@ -6,9 +6,7 @@
     {{$user->username}}
 </p>
 
-{% $loopLength = count($currencies); %}
-
-{% for ($i = 0; $i < $loopLength; $i++ ): %}
+{% for ($i = 0; $i < count($currencies); $i++ ): %}
 
 <p> {{ $amount[$i] }} {{ $currencies[$i] }} </p>
 

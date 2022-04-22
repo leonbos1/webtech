@@ -55,7 +55,7 @@
         <select name="crypto" onchange="this.form.submit()">
             <option value="none" selected disabled hidden>Kies een crypto</option>
             <?php foreach ($cryptos as $key => $item): ?>
-            <option value=<?php echo $key ?>><?php echo $item ?></option>
+            <option value=<?php echo $cryptoshorts[$key] ?>><?php echo $item ?></option>
             <?php endforeach; ?>
 
         </select>
