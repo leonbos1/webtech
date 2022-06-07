@@ -2,14 +2,15 @@
 
 namespace app\core;
 
+use app\core\container\Container;
+
 class Router
 {
     protected array $routes = [];
-    public Request $request;
+    protected Container $container;
 
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
+    public function __construct(Container $container) {
+        $this->container = $container;
     }
 
     public function get($path, $callback) {
@@ -22,13 +23,13 @@ class Router
 
     public function resolve()
     {
-        $path = $this->request->getPath();
-        $method = $this->request->getMethod();
+        $path = $this->container->resolve(Request::class)->getPath();
+        $method = $this->container->resolve(Request::class)->getMethod();
 
         $callback = $this->routes[$method][$path] ?? false;
 
         if ($callback === false) {
-            Application::$app->response->statusCode(404);
+            Application::$app->container->resolve(Response::class)->statusCode(404);
             exit();
         }
 
@@ -45,7 +46,7 @@ class Router
         }
         $callback[0] = $controller;
 
-        return call_user_func($callback, $this->request);
+        return call_user_func($callback,Application::$app->container->get(Request::class));
     }
 
     public function view($view, $params = [])

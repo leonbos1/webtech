@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
+use app\core\Response;
 use app\core\Template;
 use app\models\Login;
 use app\models\Session;
@@ -35,7 +36,7 @@ class LoginController extends Controller
     }
 
     public function logout() {
-        Application::$app->response->removeCookie('session_id');
+        Application::$app->container->resolve(Response::class)->removeCookie('session_id');
         $this->redirect('/login');
     }
 

@@ -14,7 +14,8 @@ $config = [
     ]
 ];
 
-$app = new Application(__DIR__, $config);
+$container = new \app\core\container\Container();
+$app = new Application($container,__DIR__, $config);
 
 
 $app->database->migrations();

@@ -10,6 +10,7 @@ use app\middleware\Unauthorized;
 use app\models\Crypto;
 use app\models\CryptoWallet;
 use app\models\Exchange;
+use app\models\User;
 use app\models\Wallet;
 
 class PortfolioController extends Controller
@@ -25,6 +26,7 @@ class PortfolioController extends Controller
 
         $cryptowallets = CryptoWallet::findAll(['wallet_id'=>$wallet->id]);
         $amounts = array();
+        $owned_cryptos = array();
 
         foreach ($cryptowallets as $cryptowallet) {
             $currencies[] = $cryptowallet['crypto_short'];
@@ -51,25 +53,32 @@ class PortfolioController extends Controller
         $secondCurrency = $request->getBody()['secondcurrency'];
         $amount = $request->getBody()['amount'];
 
-        $wallet = Wallet::getWalletByUser(Application::$app->getUser());
+        echo $firstCurrency;
+        echo $secondCurrency;
+        echo $amount;
 
-        $amount_currency_1 = CryptoWallet::getAmountOfCurrency($wallet->id, $firstCurrency);
-
-        if ($amount > $amount_currency_1) {
-            return "amount too big";
-        }
-
-        $value1 = $amount_currency_1;
-        if ($firstCurrency != 'eu') {
-            $value1 = Exchange::getCurrentPrice($firstCurrency);
-        }
-
-        $value2 = Exchange::getCurrentPrice($secondCurrency);
-
-
-        $params = [];
+        exit();
+        /*
+        $statement = Application::$app->database->connection->prepare("update crypto_wallet
+                                                                     set amount = $new_amount
+                                                                     where wallet_id = $wallet_id and crypto_short = '$short'");
+        $statement->execute();
+        */
 
         $this->redirect('/portfolio');
+    }
+
+    public static function getCurrency($user_id, $currency)
+    {
+        $user = User::findOne(['id'=>$user_id]);
+        $wallet = Wallet::getWalletByUser($user);
+        $cryptowallets = CryptoWallet::findAll(['wallet_id'=>$wallet->id]);
+
+        foreach ($cryptowallets as $cryptowallet) {
+            if ($cryptowallet['crypto_short'] == $currency) {
+                return $cryptowallet['amount'];
+            }
+        }
     }
 
 }

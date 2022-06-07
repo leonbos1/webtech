@@ -63,14 +63,15 @@
 
     <form action="/exchange" method="post">
         <select name="crypto" onchange="this.form.submit()">
+
             <option value="none" selected disabled hidden>Kies een crypto</option>
-            <?php foreach ($cryptos as $key => $item): ?>
-            <option value=<?php echo $cryptoshorts[$key] ?>><?php echo $item ?></option>
+
+            <?php foreach ($cryptos_short as $key => $item): ?>
+            <option value=<?php echo $item ?>><?php echo $cryptos[$key] ?></option>
             <?php endforeach; ?>
 
         </select>
     </form>
-
 </div>
 
 
@@ -105,4 +106,48 @@
     </div>
 </div>
 
+
+<script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+<script>
+
+    <?php
+    $crypto_prices = array();
+    $dates = array();
+
+    foreach ($prices as $price) {
+        $crypto_prices[] = $price[1];
+        $dates[] = $price[0];
+    }
+
+        ?>
+
+    function graph(prices, dates) {
+        var trace1 = {
+            x: dates,
+            y: prices,
+            mode: 'lines+markers'
+        };
+
+        var data = [trace1];
+
+        Plotly.newPlot('crypto-graph', data);
+    }
+</script>
+
+<style>
+    .crypto_graph {
+        width: 70%;
+    }
+</style>
+<?php
+
+$crypto_prices = json_encode($crypto_prices);
+$dates = json_encode($dates);
+echo "<body onload='graph($crypto_prices, $dates)'>";
+
+?>
+
+<div class="crypto_graph" id="crypto-graph"></div>
+
+</body>
 <?php } ?>

@@ -39,7 +39,17 @@
             <li class="nav-item active float-end">
                 <a class="nav-link" href="/logout">Logout <span class="sr-only">(current)</span></a>
             </li>
-            <?php } ?>
+
+
+            <?php $isAdmin = \app\core\Application::$app->isAdmin();
+            if ($isAdmin) { ?>
+
+            <li class="nav-item active float-end">
+                <a class="nav-link" href="/admin">Admin Panel <span class="sr-only">(current)</span></a>
+            </li>
+
+            <?php }} ?>
+
         </ul>
     </div>
 </nav>
@@ -48,20 +58,23 @@
 
 <h1>Portfolio</h1>
 
+
+<p>Currencies traden:</p>
+
 <form action="portfolio" method="post">
 
-    <select>
+    <select name="firstcurrency">
         <option value="none" selected disabled hidden>Kies een valuta</option>
-        <?php foreach ($cryptos as $key => $item): ?>
-        <option value=<?php echo $key ?>><?php echo $item ?></option>
+        <?php foreach ($owned_cryptos as $key => $item): ?>
+        <option value=<?php echo $item ?>><?php echo $item ?></option>
         <?php endforeach; ?>
     </select>
 
-    <input type="number" min="0">
-    <select>
+    <input name="amount" type="number" min="0">
+    <select name="secondcurrency">
         <option value="none" selected disabled hidden>Kies een valuta</option>
-        <?php foreach ($cryptos as $key => $item): ?>
-        <option value=<?php echo $key ?>><?php echo $item ?></option>
+        <?php foreach ($all_crypto as $key => $item): ?>
+        <option value=<?php echo $item ?>><?php echo $item ?></option>
         <?php endforeach; ?>
     </select>
 
@@ -69,19 +82,18 @@
 
 </form>
 
-<p>dfghdsgh</p>
-
 <h1>
     Wallet
 </h1>
 
 <p>Deze wallet is van:
     <?php echo $user->username ?>
-    </p>
+</p>
 
-<?php foreach ($wallet->attributes() as $v): ?>
+<?php for ($i = 0; $i < count($currencies); $i++ ): ?>
 
-<p><?php echo $v ?>: <?php echo $wallet->$v ?></p>
-<?php endforeach; ?>
+<p> <?php echo $amount[$i] ?> <?php echo $currencies[$i] ?> </p>
+
+<?php endfor; ?>
 
 

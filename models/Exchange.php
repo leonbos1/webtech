@@ -10,7 +10,7 @@ class Exchange
         $ch = curl_init();
         $coin = strtolower($coin);
 
-        curl_setopt($ch, CURLOPT_URL, 'https://api.coingecko.com/api/v3/coins/'.$coin.'/market_chart?vs_currency=eur&days='.$days.'&interval='.$interval);
+        curl_setopt($ch, CURLOPT_URL, 'https://api.coingecko.com/api/v3/coins/' . $coin . '/market_chart?vs_currency=eur&days=' . $days . '&interval=' . $interval);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -20,8 +20,7 @@ class Exchange
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         $curl_result = curl_exec($ch);
-        if (curl_errno($ch))
-        {
+        if (curl_errno($ch)) {
             echo 'Error:' . curl_error($ch);
         }
 
@@ -31,6 +30,9 @@ class Exchange
         $arr_result = json_decode($curl_result, true);
 
         $prices = $arr_result['prices'];
+        if (is_null($prices)) {
+            return [];
+        }
         for ($i = 0; $i < sizeof($prices); $i++) {
             $prices[$i][0] = $i;
         }

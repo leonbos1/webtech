@@ -7,9 +7,15 @@ use app\controllers\WalletController;
 use app\core\Application;
 use app\controllers\HomeController;
 use app\controllers\LoginController;
-use app\controllers\TestController;
 use app\controllers\RegisterController;
 use app\controllers\ExchangeController;
+use app\core\container\Container;
+use app\core\Database;
+use app\core\Request;
+use app\core\Response;
+use app\core\Router;
+use app\core\Session;
+use app\models\Crypto;
 
 require_once __DIR__.'/../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
@@ -23,37 +29,44 @@ $config = [
     ]
 ];
 
-$app = new Application(dirname(__DIR__), $config);
+$container = new Container();
 
-$app->router->get('/', [HomeController::class,'home']);
+$router = $container->get(Router::class);
+$response = $container->get(Response::class);
 
-$app->router->get('/home', [HomeController::class,'home']);
+$container->get(Request::class);
 
-$app->router->get('/login', [LoginController::class,'login']);
-$app->router->post('/login', [LoginController::class,'loginpost']);
+$app = new Application($container,dirname(__DIR__), $config, $router);
 
-$app->router->get('/register', [RegisterController::class,'register']);
-$app->router->post('/register', [RegisterController::class,'registerpost']);
+$router->get('/', [HomeController::class,'home']);
+$router->get('/home', [HomeController::class,'home']);
 
-$app->router->get('/portfolio',[PortfolioController::class,'portfolio']);
-$app->router->post('/portfolio',[PortfolioController::class,'trade']);
+$router->get('/login', [LoginController::class,'login']);
+$router->post('/login', [LoginController::class,'loginpost']);
 
-$app->router->get('/wallet', [WalletController::class,'wallet']);
-$app->router->post('/wallet', [WalletController::class, 'addeuros']);
+$router->get('/register', [RegisterController::class,'register']);
+$router->post('/register', [RegisterController::class,'registerpost']);
 
-$app->router->get('/logout', [LoginController::class,'logout']);
+$router->get('/portfolio',[PortfolioController::class,'portfolio']);
+$router->post('/portfolio',[PortfolioController::class,'trade']);
 
-$app->router->get('/profile', [ProfileController::class,'profile']);
+$router->get('/wallet', [WalletController::class,'wallet']);
+$router->post('/wallet', [WalletController::class, 'addeuros']);
 
-$app->router->get('/admin', [AdminController::class,'admin']);
-$app->router->post('/admin', [AdminController::class,'addCrypto']);
+$router->get('/logout', [LoginController::class,'logout']);
 
-$app->router->get('/exchange', [ExchangeController::class,'exchange']);
-$app->router->post('/exchange', [ExchangeController::class,'exchange_select']);
+$router->get('/profile', [ProfileController::class,'profile']);
 
-$crypto_shorts = \app\models\Crypto::getAllCryptoShorts();
+$router->get('/admin', [AdminController::class,'admin']);
+$router->post('/admin', [AdminController::class,'addCrypto']);
+
+$router->get('/exchange', [ExchangeController::class,'exchange']);
+$router->post('/exchange', [ExchangeController::class,'exchange_select']);
+
+$crypto_shorts = Crypto::getAllCryptoShorts();
+
 foreach ($crypto_shorts as $crypto) {
-    $app->router->get("/exchange/$crypto", [ExchangeController::class, 'crypto']);
+    $router->get("/exchange/$crypto", [ExchangeController::class, 'crypto']);
 }
 
 

@@ -33,7 +33,7 @@ class Session extends DatabaseModel
         $expire_date = date_add($expire_date, date_interval_create_from_date_string("1 day"));
         $this->expire_date = date_format($expire_date,"Y-m-d H:m:s");
 
-        Application::$app->response->setCookie('session_id',$this->session_id, time()+86400);
+        Application::$app->container->resolve(Response::class)->setCookie('session_id',$this->session_id, time()+86400);
 
         $this->save();
 

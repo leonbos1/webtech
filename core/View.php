@@ -12,8 +12,8 @@ class View
         }
 
         $layoutName = Application::$app->layout;
-        if (Application::$app->controller) {
-            $layoutName = Application::$app->controller->layout;
+        if (Application::$container->get(Controller::class)) {
+            $layoutName = Application::$container->get(Controller::class)->layout;
         }
 
         $viewContent = $this->renderViewOnly($view, $params);

@@ -7,6 +7,7 @@ use app\core\Controller;
 use app\core\Request;
 
 use app\core\Template;
+use app\models\Crypto;
 use app\models\Exchange;
 
 class ExchangeController extends Controller
@@ -20,7 +21,11 @@ class ExchangeController extends Controller
     ];
 
     public function exchange() {
-        $params = ['cryptos'=>$this->cryptos];
+        $params = [
+            'cryptos_short'=> Crypto::getAllCryptoShorts(),
+            'cryptos' => Crypto::getAllCryptoNames()
+        ];
+
         Template::view('layouts/exchange.html', $params);
     }
 
@@ -37,7 +42,8 @@ class ExchangeController extends Controller
         $params = [
             'prices' => Exchange::getCoinPrices($this->cryptos[$crypto_type],30, 'daily'),
             'crypto_type' => $this->cryptos[$crypto_type],
-            'cryptos'=>$this->cryptos
+            'cryptos_short'=> Crypto::getAllCryptoShorts(),
+            'cryptos' => Crypto::getAllCryptoNames()
         ];
 
         Template::view('layouts/exchange.html', $params);

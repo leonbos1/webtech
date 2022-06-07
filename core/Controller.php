@@ -11,7 +11,7 @@ class Controller
     private string $page;
 
     public function render($view, $params) {
-        return Application::$app->router->view($view, $params);
+        return Application::$container->get(View::class)->view($view, $params);
 
     }
 

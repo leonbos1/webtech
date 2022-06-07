@@ -3,13 +3,14 @@
 
     <form action="/exchange" method="post">
         <select name="crypto" onchange="this.form.submit()">
+
             <option value="none" selected disabled hidden>Kies een crypto</option>
-            {% foreach ($cryptos as $key => $item): %}
-            <option value={{$cryptoshorts[$key]}}>{{$item}}</option>
+
+            {% foreach ($cryptos_short as $key => $item): %}
+            <option value={{$item}}>{{$cryptos[$key]}}</option>
             {% endforeach; %}
 
         </select>
     </form>
-
 </div>
 

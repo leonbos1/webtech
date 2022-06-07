@@ -13,6 +13,21 @@ class CryptoWallet extends DatabaseModel
         return "crypto_wallet";
     }
 
+    public static function getAmountOfCurrency($user_id, $currency)
+    {
+        $user = User::findOne(['id'=>$user_id]);
+        echo $user->username;
+        exit();
+        $wallet = Wallet::getWalletByUser($user);
+        $cryptowallets = CryptoWallet::findAll(['wallet_id'=>$wallet->id]);
+
+        foreach ($cryptowallets as $cryptowallet) {
+            if ($cryptowallet['crypto_short'] == $currency) {
+                return $cryptowallet['amount'];
+            }
+        }
+    }
+
     public function attributes(): array
     {
         return ['wallet_id', 'crypto_short', 'amount'];
@@ -31,7 +46,16 @@ class CryptoWallet extends DatabaseModel
         $user_id = Application::$app->getUser()->id;
 
         if ($amount > 0) {
+
             $old_amount = self::getEuros($user_id);
+            $new_amount = $old_amount + $amount;
+
+            $wallet = Wallet::getWalletByUser(Application::$app->getUser());
+            $statement = Application::$app->database->connection->prepare("update crypto_wallet
+                                                                                 set amount = $new_amount
+                                                                                 where wallet_id = $wallet->id and crypto_short = 'eu'");
+
+            $statement->execute();
         }
     }
 
@@ -42,7 +66,9 @@ class CryptoWallet extends DatabaseModel
         $cryptowallets = CryptoWallet::findAll(['wallet_id'=>$wallet->id]);
 
         foreach ($cryptowallets as $cryptowallet) {
-            return $cryptowallet['amount'];
+            if ($cryptowallet['crypto_short'] == 'eu') {
+                return $cryptowallet['amount'];
+            }
         }
     }
 }
