@@ -56,8 +56,9 @@ class PortfolioController extends Controller
         echo $firstCurrency;
         echo $secondCurrency;
         echo $amount;
+        echo $secondCurrency;
 
-        exit();
+        CryptoWallet::exchangeCurrency($firstCurrency, $amount, $secondCurrency);
         /*
         $statement = Application::$app->database->connection->prepare("update crypto_wallet
                                                                      set amount = $new_amount

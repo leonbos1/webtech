@@ -17,7 +17,6 @@ class CryptoWallet extends DatabaseModel
     {
         $user = User::findOne(['id'=>$user_id]);
         echo $user->username;
-        exit();
         $wallet = Wallet::getWalletByUser($user);
         $cryptowallets = CryptoWallet::findAll(['wallet_id'=>$wallet->id]);
 
@@ -68,6 +67,55 @@ class CryptoWallet extends DatabaseModel
         foreach ($cryptowallets as $cryptowallet) {
             if ($cryptowallet['crypto_short'] == 'eu') {
                 return $cryptowallet['amount'];
+            }
+        }
+    }
+
+    public static function exchangeCurrency($oldCurrency, $amount, $newCurrency) {
+        $user_id = Application::$app->getUser()->id;
+        $wallet = Wallet::getWalletByUser(Application::$app->getUser());
+
+        if ($amount > 0) {
+
+            $walletExists = false;
+            foreach (self::getCryptoWalletsByWalletId($wallet->id) as $cryptoWallet) {
+                if ($cryptoWallet['crypto_short'] == $newCurrency) {
+                    $walletExists = true;
+                }
+            }
+
+            if (!$walletExists) {
+                $newCryptoWallet = new CryptoWallet();
+                $newCryptoWallet->load(['wallet_id' => $wallet->id, 'crypto_short' => $newCurrency, 'amount' => 0]);
+                $newCryptoWallet->save();
+            }
+
+            $newCurrency_old_amount = self::getAmountOfCurrency($user_id, $newCurrency);
+            if ($oldCurrency == 'eu') {
+                $newCurrency_new_amount = $newCurrency_old_amount + ($amount / Exchange::getCurrentPrice(Crypto::findOne(['crypto_short'=>$newCurrency])->crypto));
+            } elseif ($newCurrency == 'eu') {
+                $amount_eur = $amount * Exchange::getCurrentPrice(Crypto::findOne(['crypto_short' => $oldCurrency])->crypto);
+                $newCurrency_new_amount = $newCurrency_old_amount + $amount_eur;
+            } else {
+                $amount_eur = $amount * Exchange::getCurrentPrice(Crypto::findOne(['crypto_short' => $oldCurrency])->crypto);
+                $newCurrency_new_amount = $newCurrency_old_amount + ($amount_eur / Exchange::getCurrentPrice(Crypto::findOne(['crypto_short' => $newCurrency])->crypto));
+            }
+
+            $oldCurrency_old_amount = self::getAmountOfCurrency($user_id, $oldCurrency);
+            $oldCurrency_new_amount = $oldCurrency_old_amount - $amount;
+            if ($oldCurrency_new_amount >= 0) {
+
+                $statement = Application::$app->database->connection->prepare("update crypto_wallet
+                                                                                 set amount = $oldCurrency_new_amount
+                                                                                 where wallet_id = $wallet->id and crypto_short = '$oldCurrency'");
+
+                $statement->execute();
+
+                $statement = Application::$app->database->connection->prepare("update crypto_wallet
+                                                                                 set amount = $newCurrency_new_amount
+                                                                                 where wallet_id = $wallet->id and crypto_short = '$newCurrency'");
+
+                $statement->execute();
             }
         }
     }

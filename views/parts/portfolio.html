@@ -15,7 +15,7 @@
     <input name="amount" type="number" min="0">
     <select name="secondcurrency">
         <option value="none" selected disabled hidden>Kies een valuta</option>
-        {% foreach ($all_crypto as $key => $item): %}
+        {% foreach ($all_crypto_short as $key => $item): %}
         <option value={{$item}}>{{$item}}</option>
         {% endforeach; %}
     </select>

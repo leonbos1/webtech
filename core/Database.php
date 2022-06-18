@@ -14,8 +14,9 @@ class Database
         $username = $config['username'];
         $password = $config['password'];
 
-        $this->connection = new PDO($domain_service_name, $username,$password);
+        $this->connection = new PDO($domain_service_name, $username, $password);
         $this->connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
+        $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
     public function migrations() {

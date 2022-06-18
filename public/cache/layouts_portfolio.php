@@ -73,7 +73,7 @@
     <input name="amount" type="number" min="0">
     <select name="secondcurrency">
         <option value="none" selected disabled hidden>Kies een valuta</option>
-        <?php foreach ($all_crypto as $key => $item): ?>
+        <?php foreach ($all_crypto_short as $key => $item): ?>
         <option value=<?php echo $item ?>><?php echo $item ?></option>
         <?php endforeach; ?>
     </select>
@@ -95,5 +95,4 @@
 <p> <?php echo $amount[$i] ?> <?php echo $currencies[$i] ?> </p>
 
 <?php endfor; ?>
-
 
