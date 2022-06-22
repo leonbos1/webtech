@@ -10,11 +10,7 @@ use app\controllers\LoginController;
 use app\controllers\RegisterController;
 use app\controllers\ExchangeController;
 use app\core\container\Container;
-use app\core\Database;
-use app\core\Request;
-use app\core\Response;
 use app\core\Router;
-use app\core\Session;
 use app\models\Crypto;
 
 require_once __DIR__.'/../vendor/autoload.php';
@@ -32,9 +28,6 @@ $config = [
 $container = new Container();
 
 $router = $container->get(Router::class);
-$response = $container->get(Response::class);
-
-$container->get(Request::class);
 
 $app = new Application($container,dirname(__DIR__), $config, $router);
 

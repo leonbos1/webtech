@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
+use app\core\Request;
 use app\core\Template;
 use app\middleware\Unauthorized;
 use app\models\CryptoWallet;
@@ -42,10 +43,10 @@ class WalletController extends Controller
 
     public function addEuros() {
 
-        $amount = Application::$app->request->getBody()['add_euro'];
+        $amount = Application::$app->container->get(Request::class)->getBody()['add_euro'];
 
         CryptoWallet::addEuro($amount);
 
-        Application::$app->controller->redirect('/wallet');
+        Application::$app->container->get(Controller::class)->redirect('/wallet');
     }
 }

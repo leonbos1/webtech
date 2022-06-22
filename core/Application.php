@@ -13,23 +13,18 @@ class Application
     public Request $request;
     public View $view;
     public Database $database;
-    public ?Controller $controller = null;
     public static string $root_directory;
     public string $layout = 'main';
     public Container $container;
-    public Session $session;
 
     public function __construct(Container $container,$path, array $config, protected ?Router $router = null)
     {
         $this->container = $container;
         self::$app = $this;
         self::$root_directory = $path;
-        $this->request = new Request();
         $this->view = new View();
         $this->database = new Database($config['database']);
-        $this->session = new Session();
         session_start();
-
     }
 
     public function run()
@@ -58,10 +53,9 @@ class Application
         $current_date = date("Y-m-d H:m:s");
 
         if ($current_date > $expire_date) {
-            Application::$app->controller->redirect('/logout');
+            Application::$app->container->get(Controller::class)->redirect('/logout');
             return false;
         }
-
         return true;
 
     }

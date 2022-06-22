@@ -3,6 +3,7 @@
 namespace app\middleware;
 
 use app\core\Application;
+use app\core\Response;
 
 class IsAdmin extends Middleware
 {
@@ -18,7 +19,7 @@ class IsAdmin extends Middleware
         $user = Application::$app->getUser();
 
         if ($user->role != 'admin') {
-            Application::$app->response->statusCode(401);
+            Application::$app->container->get(Response::class)->statusCode(401);
             exit();
         }
     }

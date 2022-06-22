@@ -3,6 +3,8 @@
 namespace app\middleware;
 
 use app\core\Application;
+use app\core\Controller;
+use app\core\Response;
 
 class Unauthorized extends Middleware
 {
@@ -18,12 +20,12 @@ class Unauthorized extends Middleware
         if (!Application::$app->LoggedIn()) {
 
             if ($this->pages === []) {
-                Application::$app->response->statusCode(401);
+                Application::$app->container->get(Response::class)->statusCode(401);
                 exit();
             }
             foreach ($this->pages as $p) {
-                if ($p === Application::$app->controller->getPage()) {
-                    Application::$app->response->statusCode(401);
+                if ($p === Application::$app->container->get(Controller::class)->getPage()) {
+                    Application::$app->container->get(Response::class)->statusCode(401);
                     exit();
                 }
             }

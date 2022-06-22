@@ -7,11 +7,6 @@ use app\core\container\Container;
 class Router
 {
     protected array $routes = [];
-    protected Container $container;
-
-    public function __construct(Container $container) {
-        $this->container = $container;
-    }
 
     public function get($path, $callback) {
         $this->routes['get'][$path] = $callback;
@@ -23,8 +18,8 @@ class Router
 
     public function resolve()
     {
-        $path = $this->container->resolve(Request::class)->getPath();
-        $method = $this->container->resolve(Request::class)->getMethod();
+        $path = Application::$app->container->resolve(Request::class)->getPath();
+        $method = Application::$app->container->resolve(Request::class)->getMethod();
 
         $callback = $this->routes[$method][$path] ?? false;
 
@@ -51,6 +46,6 @@ class Router
 
     public function view($view, $params = [])
     {
-        return Application::$app->view->renderView($view, $params);
+        return Application::$app->container->get(View::class)->renderView($view, $params);
     }
 }

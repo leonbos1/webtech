@@ -2,16 +2,12 @@
 
 namespace app\core\container;
 
-use app\core\container\exceptions\ContainerException;
 use app\core\container\exceptions\DependencyIsNotInstantiableException;
-use app\core\container\exceptions\NoDefaultValueException;
 use ReflectionClass;
-use ReflectionNamedType;
-use ReflectionParameter;
 
 class Container implements ContainerInterface
 {
-    private array $entries = [];
+    public array $entries = [];
 
     public function get($id)
     {
