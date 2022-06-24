@@ -12,6 +12,13 @@ use app\models\Session;
 
 class LoginController extends Controller
 {
+    private Response $response;
+
+    public function __construct()
+    {
+        $this->container = Application::$app->getContainer();
+        $this->response = $this->container->get('app\core\Response');
+    }
 
     public function login() {
         $params = [];
@@ -36,7 +43,7 @@ class LoginController extends Controller
     }
 
     public function logout() {
-        Application::$app->container->resolve(Response::class)->removeCookie('session_id');
+        $this->response->removeCookie('session_id');
         $this->redirect('/login');
     }
 

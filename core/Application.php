@@ -9,13 +9,10 @@ use app\models\User;
 class Application
 {
     public static Application $app;
-    private View $view;
     private Database $database;
-    private static string $root_directory;
-    private string $layout = 'main';
-    private Container $container;
+    public static string $root_directory;
 
-    public function __construct(Container $container,$path, array $config, protected ?Router $router = null)
+    public function __construct(Container $container,$path, array $config, Router $router)
     {
         $this->container = $container;
         self::$app = $this;
@@ -24,6 +21,8 @@ class Application
         $this->database = new Database($config['database']);
         $this->response = $container->get('app\core\Response');
         $this->controller = $container->get('app\core\Controller');
+        $this->router = $router;
+        $this->router->setContainer($this->container);
         session_start();
     }
 

@@ -1,6 +1,8 @@
 <?php
 
 use app\core\Application;
+use app\core\container\Container;
+use app\core\Router;
 
 require_once __DIR__.'/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -14,9 +16,11 @@ $config = [
     ]
 ];
 
-$container = new \app\core\container\Container();
-$app = new Application($container,__DIR__, $config);
+$container = new Container();
+$router = new Router();
+
+$app = new Application($container,dirname(__FILE__), $config, $router);
 
 
-$app->database->migrations();
+$app->getDatabase()->migrations();
 

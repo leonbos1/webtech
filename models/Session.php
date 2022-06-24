@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\core\Application;
+use app\core\container\Container;
 use app\core\DatabaseModel;
 use app\core\Response;
 
@@ -12,6 +13,14 @@ class Session extends DatabaseModel
     public string $session_id;
     public int $user_id;
     public string $expire_date;
+    private Response $response;
+    private Container $container;
+
+    public function __construct()
+    {
+        $this->container = Application::$app->getContainer();
+        $this->response = $this->container->get('app\core\Response');
+    }
 
     public static function tableName(): string
     {
@@ -33,7 +42,7 @@ class Session extends DatabaseModel
         $expire_date = date_add($expire_date, date_interval_create_from_date_string("1 day"));
         $this->expire_date = date_format($expire_date,"Y-m-d H:m:s");
 
-        Application::$app->container->resolve(Response::class)->setCookie('session_id',$this->session_id, time()+86400);
+        $this->response->setCookie('session_id',$this->session_id, time()+86400);
 
         $this->save();
 

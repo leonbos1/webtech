@@ -5,7 +5,7 @@ use app\core\Application;
 class m003_session
 {
     public function up() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "CREATE TABLE session (
                 session_id varchar(45) primary key ,
                 user_id INT,
@@ -17,7 +17,7 @@ class m003_session
     }
 
     public function down() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "DROP TABLE session;";
         $database->connection->exec($statement);
     }

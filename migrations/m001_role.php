@@ -5,7 +5,7 @@ use app\core\Application;
 class m001_role
 {
     public function up() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "CREATE TABLE role (
                 name varchar(45) primary key
             )  ENGINE=INNODB;";
@@ -21,7 +21,7 @@ class m001_role
     }
 
     public function down() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "DROP TABLE role;";
         $database->connection->exec($statement);
     }

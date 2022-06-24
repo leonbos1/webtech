@@ -27,6 +27,7 @@ class Database
         $files = scandir(Application::$root_directory.'/migrations');
         //$applyMigrations = array_diff($files, $migrations);
 
+
         foreach ($files as $mig) {
 
             if ($mig !== '.' && $mig !== '..') {

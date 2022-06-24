@@ -1,11 +1,12 @@
 <?php
 
 use app\core\Application;
+use app\models\Wallet;
 
 class m005_wallet
 {
     public function up() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "CREATE TABLE wallet (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT,
@@ -13,10 +14,15 @@ class m005_wallet
                 FOREIGN KEY (user_id) references user(id)
             )  ENGINE=INNODB;";
         $database->connection->exec($statement);
+
+        //wallet aanmaken voor standaard admin account
+        $wallet = new Wallet();
+        $wallet->load(['user_id'=>'1']);
+        $wallet->save();
     }
 
     public function down() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "DROP TABLE wallet;";
         $database->connection->exec($statement);
     }

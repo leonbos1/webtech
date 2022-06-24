@@ -6,7 +6,7 @@ use app\models\User;
 class m002_user {
 
     public function up() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "CREATE TABLE user (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 username VARCHAR(255) NOT NULL,
@@ -23,7 +23,7 @@ class m002_user {
     }
 
     public function down() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "DROP TABLE user;";
         $database->connection->exec($statement);
     }

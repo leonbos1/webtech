@@ -26,9 +26,10 @@ $config = [
 ];
 
 $container = new Container();
-$router = new Router($container);
+$router = new Router();
 
-$app = new Application($container,dirname(__DIR__), $config, $router);
+$app = new Application($container,dirname(__FILE__), $config, $router);
+
 
 $router->get('/', [HomeController::class,'home']);
 $router->get('/home', [HomeController::class,'home']);
@@ -60,9 +61,6 @@ $crypto_shorts = Crypto::getAllCryptoShorts();
 foreach ($crypto_shorts as $crypto) {
     $router->get("/exchange/$crypto", [ExchangeController::class, 'crypto']);
 }
-
-
-
 $app->run();
 
 ?>

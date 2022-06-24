@@ -6,8 +6,14 @@ use app\core\container\Container;
 
 class Router
 {
-    public function __construct(protected Container $container)
+    private Container $container;
+
+    public function __construct()
     {
+    }
+
+    public function setContainer(Container $container) {
+        $this->container = $container;
     }
 
     protected array $routes = [];

@@ -5,7 +5,7 @@ use app\core\Application;
 class m006_crypto_wallet
 {
     public function up() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "CREATE TABLE crypto_wallet (
                 crypto_wallet_id int auto_increment primary key,
                 wallet_id int not null,
@@ -18,7 +18,7 @@ class m006_crypto_wallet
     }
 
     public function down() {
-        $database = Application::$app->database;
+        $database = Application::$app->getDatabase();
         $statement = "DROP TABLE crypto_wallet;";
         $database->connection->exec($statement);
     }
