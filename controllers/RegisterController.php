@@ -13,6 +13,9 @@ use app\models\Wallet;
 class RegisterController extends Controller
 {
 
+    public function __construct(protected Controller $controller)
+    {}
+
     public function register() {
         $params = [];
         Template::view('register.html', $params);
@@ -36,7 +39,7 @@ class RegisterController extends Controller
             $crypto_wallet->load(['wallet_id'=>$wallet_id,'crypto_short'=>'eu','amount'=>0]);
             $crypto_wallet->save();
 
-            Application::$app->controller->redirect('/login');
+            $this->controller->redirect('/login');
         }
 
         $params = ['failMessage'=>$register->validate()];

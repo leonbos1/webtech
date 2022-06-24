@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
+use app\core\Response;
 use app\core\services\AuthService;
 use app\core\Template;
 use app\middleware\Unauthorized;
@@ -16,9 +17,13 @@ use app\models\Wallet;
 
 class PortfolioController extends Controller
 {
-    public function __construct(protected AuthService $authService)
+    public function __construct(protected Controller $controller,
+                                protected AuthService $authService,
+                                protected Request $request,
+                                protected Response $response)
     {
-        $this->addMiddleware(new Unauthorized(['portfolio'], $this->authService));
+        $this->addMiddleware(new Unauthorized(['portfolio'], $this->authService, $this->controller, $this->response));
+
     }
 
     public function portfolio() {

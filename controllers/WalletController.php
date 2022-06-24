@@ -6,6 +6,7 @@ use app\core\Application;
 use app\core\container\Container;
 use app\core\Controller;
 use app\core\Request;
+use app\core\Response;
 use app\core\services\AuthService;
 use app\core\Template;
 use app\middleware\Unauthorized;
@@ -15,20 +16,19 @@ use app\models\Wallet;
 
 class WalletController extends Controller
 {
-    private Container $container;
-    private Controller $controller;
-    private Controller $request;
 
-    public function __construct(protected AuthService $authService)
+    public function __construct(protected Controller $controller,
+                                protected AuthService $authService,
+                                protected Request $request,
+                                protected Response $response)
     {
-        $this->addMiddleware(new Unauthorized(['wallet'], $this->authService));
-        $this->container = Application::$app->getContainer();
-        $this->controller = $this->container->get('app\core\Controller');
+        $this->addMiddleware(new Unauthorized(['wallet'], $this->authService, $this->controller, $this->response));
+
     }
 
     public function wallet() {
 
-        $user = Application::$app->getUser();
+        $user = $this->authService->getUser();
         $wallet = Wallet::getWalletByUser($user);
 
         $cryptowallets = CryptoWallet::findAll(['wallet_id'=>$wallet->id]);
@@ -51,7 +51,7 @@ class WalletController extends Controller
 
     public function addEuros() {
 
-        $amount = $this->container->get(Request::class)->getBody()['add_euro'];
+        $amount = $this->request->getBody()['add_euro'];
 
         CryptoWallet::addEuro($amount);
 

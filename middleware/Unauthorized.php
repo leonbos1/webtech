@@ -11,7 +11,10 @@ class Unauthorized extends Middleware
 {
     private array $pages;
 
-    public function __construct($pages, protected AuthService $authService)
+    public function __construct($pages, protected AuthService $authService,
+                                protected Controller $controller,
+                                protected Response $response
+                                )
     {
         $this->pages = $pages;
     }
@@ -21,12 +24,12 @@ class Unauthorized extends Middleware
         if (!$this->authService->LoggedIn()) {
 
             if ($this->pages === []) {
-                Application::$app->container->get(Response::class)->statusCode(401);
+                $this->response->statusCode(401);
                 exit();
             }
             foreach ($this->pages as $p) {
-                if ($p === Application::$app->container->get(Controller::class)->getPage()) {
-                    Application::$app->container->get(Response::class)->statusCode(401);
+                if ($p === $this->controller->getPage()) {
+                    $this->response->statusCode(401);
                     exit();
                 }
             }
