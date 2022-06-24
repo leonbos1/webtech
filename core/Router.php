@@ -49,7 +49,7 @@ class Router
             $class = $this->container->get($class);
             $page = $action[1];
             $class->setPage($page);
-            Application::$app->controller = $class;
+            Application::$app->setController($class);
             $middlewares = $class->getMiddleware();
 
             foreach ($middlewares as $m) {
@@ -66,8 +66,4 @@ class Router
         throw new \Exception('route not found');
     }
 
-    public function view($view, $params = [])
-    {
-        return $this->container->get(View::class)->renderView($view, $params);
-    }
 }

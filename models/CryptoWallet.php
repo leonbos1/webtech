@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\core\Application;
+use app\core\Authentication;
 use app\core\DatabaseModel;
 
 class CryptoWallet extends DatabaseModel
@@ -42,14 +43,14 @@ class CryptoWallet extends DatabaseModel
     }
 
     public static function addEuro($amount) {
-        $user_id = Application::$app->getUser()->id;
+        $user_id = Authentication::$auth->getUser()->id;
 
         if ($amount > 0) {
 
             $old_amount = self::getEuros($user_id);
             $new_amount = $old_amount + $amount;
 
-            $wallet = Wallet::getWalletByUser(Application::$app->getUser());
+            $wallet = Wallet::getWalletByUser(Authentication::$auth->getUser());
             $statement = Application::$app->getDatabase()->connection->prepare("update crypto_wallet
                                                                                  set amount = $new_amount
                                                                                  where wallet_id = $wallet->id and crypto_short = 'eu'");
@@ -72,8 +73,8 @@ class CryptoWallet extends DatabaseModel
     }
 
     public static function exchangeCurrency($oldCurrency, $amount, $newCurrency) {
-        $user_id = Application::$app->getUser()->id;
-        $wallet = Wallet::getWalletByUser(Application::$app->getUser());
+        $user_id = Authentication::$auth->getUser()->id;
+        $wallet = Wallet::getWalletByUser(Authentication::$auth->getUser());
 
         if ($amount > 0) {
 

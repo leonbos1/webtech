@@ -17,7 +17,6 @@ class Application
         $this->container = $container;
         self::$app = $this;
         self::$root_directory = $path;
-        $this->view = $container->get('app\core\View');
         $this->database = new Database($config['database']);
         $this->response = $container->get('app\core\Response');
         $this->controller = $container->get('app\core\Controller');

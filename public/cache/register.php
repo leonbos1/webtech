@@ -19,7 +19,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <?php $loggedIn = \app\core\Application::$app->LoggedIn();
+            <?php $loggedIn = \app\core\Authentication::$auth->LoggedIn();
             if ($loggedIn) { ?>
             <li class="nav-item active">
                 <a class="nav-link" href="/wallet">Wallet<span class="sr-only">(current)</span></a>
@@ -52,7 +52,7 @@
             </li>
 
 
-            <?php $isAdmin = \app\core\Application::$app->isAdmin();
+            <?php $isAdmin = \app\core\Authentication::$auth->isAdmin();
             if ($isAdmin) { ?>
 
             <li class="nav-item active float-end">
