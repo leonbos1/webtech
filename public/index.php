@@ -10,6 +10,7 @@ use app\controllers\RegisterController;
 use app\controllers\WalletController;
 use app\core\Application;
 use app\core\container\Container;
+use app\core\Controller;
 use app\core\Router;
 use app\models\Crypto;
 
@@ -61,6 +62,9 @@ $crypto_shorts = Crypto::getAllCryptoShorts();
 foreach ($crypto_shorts as $crypto) {
     $router->get("/exchange/$crypto", [ExchangeController::class, 'crypto']);
 }
+
+
+
 $app->run();
 
 ?>

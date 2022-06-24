@@ -1,48 +1,23 @@
 <?php
 
-namespace app\core;
+namespace app\core\services;
 
-use app\core\container\Container;
+use app\core\Application;
+use app\core\Response;
 use app\models\Session as sessionModel;
 use app\models\User;
 
-class Application
+class AuthService
 {
-    public static Application $app;
-    private Database $database;
-    public static string $root_directory;
 
-    public function __construct(Container $container,$path, array $config, Router $router)
+    public function __construct(
+        protected Response $response
+    )
     {
-        $this->container = $container;
-        self::$app = $this;
-        self::$root_directory = $path;
-        $this->view = $container->get('app\core\View');
-        $this->database = new Database($config['database']);
-        $this->response = $container->get('app\core\Response');
-        $this->controller = $container->get('app\core\Controller');
-        $this->router = $router;
-        $this->router->setContainer($this->container);
-        session_start();
-    }
-
-    public function run()
-    {
-        echo $this->router->resolve();
-    }
-
-    public function setController(Controller $controller) {
-        $this->controller = $controller;
-    }
-
-    public function getDatabase() {
-        return $this->database;
     }
 
     public function LoggedIn() {
-        $response = $this->container->get(Response::class);
-
-        $session_id = $response->getCookie('session_id');
+        $session_id = $this->response->getCookie('session_id');
 
         if (!isset($session_id)) {
             return false;
@@ -78,15 +53,12 @@ class Application
     public function isAdmin() {
         $user = Application::$app->getUser();
 
+        var_dump($user);
+
         if ($user->role != 'admin') {
             return false;
         }
         return true;
-    }
-
-    public function getContainer()
-    {
-        return $this->container;
     }
 
 }

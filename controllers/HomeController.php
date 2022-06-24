@@ -9,7 +9,6 @@ use app\core\Template;
 
 class HomeController extends Controller
 {
-
     public function home() {
         $params = [];
         Template::view('home.html', $params);

@@ -29,33 +29,41 @@ class Router
     public function resolve()
     {
         $request = $this->container->get('app\core\Request');
-        $response = $this->container->get('app\core\Response');
 
+        $reqMethod = $request->getMethod();
 
-        $path = $request->getPath();
-        $method = $request->getMethod();
+        $route = $request->getPath();
+        $action = $this->routes[$reqMethod][$route];
 
-        $callback = $this->routes[$method][$path] ?? false;
-
-        if ($callback === false) {
-            $response->statusCode(404);
-            exit();
+        if (!$action) {
+            throw new \Exception();
         }
 
-        $page = $callback[1];
-        $controller = new $callback[0];
-        $controller->setPage($page);
-
-        Application::$app->controller = $controller;
-
-        $middlewares = $controller->getMiddleware();
-
-        foreach ($middlewares as $m) {
-            $m->handle();
+        if (is_callable($action)) {
+            return call_user_func($action);
         }
-        $callback[0] = $controller;
 
-        return call_user_func($callback,$request);
+        [$class, $method] = $action;
+
+        if (class_exists($class)) {
+            $class = $this->container->get($class);
+            $page = $action[1];
+            $class->setPage($page);
+            Application::$app->controller = $class;
+            $middlewares = $class->getMiddleware();
+
+            foreach ($middlewares as $m) {
+                $m->handle();
+            }
+            $action[0] = $class;
+
+
+            if (method_exists($class, $method)) {
+                return call_user_func_array([$class, $method], [$this->container->get('app\core\Request')]);
+            }
+        }
+
+        throw new \Exception('route not found');
     }
 
     public function view($view, $params = [])

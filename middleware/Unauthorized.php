@@ -5,12 +5,13 @@ namespace app\middleware;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Response;
+use app\core\services\AuthService;
 
 class Unauthorized extends Middleware
 {
     private array $pages;
 
-    public function __construct($pages)
+    public function __construct($pages, protected AuthService $authService)
     {
         $this->pages = $pages;
     }

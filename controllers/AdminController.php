@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
+use app\core\services\AuthService;
 use app\core\Template;
 use app\middleware\IsAdmin;
 use app\middleware\Unauthorized;
@@ -12,16 +13,14 @@ use app\models\Crypto;
 
 class AdminController extends Controller
 {
-    public function __construct()
+    public function __construct(protected AuthService $authService, protected Controller $controller)
     {
-        $this->addMiddleware(new Unauthorized(['admin']));
-        $this->addMiddleware(new IsAdmin(['admin']));
+        $this->addMiddleware(new Unauthorized(['admin'], $this->authService));
+        $this->addMiddleware(new IsAdmin(['admin'], $this->authService));
         $this->container = Application::$app->getContainer();
-        $this->controler = $this->container->get('app\core\controller');
     }
 
     public function admin() {
-
         $params = [];
 
         Template::view('layouts/adminpanel.html', $params);
@@ -37,7 +36,7 @@ class AdminController extends Controller
 
            $crypto->save();
        }
-       $this->controler->redirect('/admin');
+       $this->controller->redirect('/admin');
 
    }
 }

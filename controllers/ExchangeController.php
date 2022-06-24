@@ -12,6 +12,12 @@ use app\models\Exchange;
 
 class ExchangeController extends Controller
 {
+    public function __construct(
+        protected Controller $controller
+    )
+    {
+    }
+
     protected array $cryptos = [
         'btc' => 'Bitcoin',
         'xrp' => 'Ripple',
@@ -33,7 +39,8 @@ class ExchangeController extends Controller
     {
         $crypto = $request->getBody()['crypto'];
 
-        Application::$app->controller->redirect("/exchange/$crypto");
+        $this->controller->redirect("exchange/$crypto");
+        //Application::$app->controller->redirect("/exchange/$crypto");
     }
 
     public function crypto(Request $request) {

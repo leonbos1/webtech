@@ -6,6 +6,7 @@ use app\core\Application;
 use app\core\container\Container;
 use app\core\Controller;
 use app\core\Request;
+use app\core\services\AuthService;
 use app\core\Template;
 use app\middleware\Unauthorized;
 use app\models\CryptoWallet;
@@ -18,9 +19,9 @@ class WalletController extends Controller
     private Controller $controller;
     private Controller $request;
 
-    public function __construct()
+    public function __construct(protected AuthService $authService)
     {
-        $this->addMiddleware(new Unauthorized(['wallet']));
+        $this->addMiddleware(new Unauthorized(['wallet'], $this->authService));
         $this->container = Application::$app->getContainer();
         $this->controller = $this->container->get('app\core\Controller');
     }

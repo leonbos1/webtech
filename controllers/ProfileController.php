@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
+use app\core\services\AuthService;
 use app\core\Template;
 use app\middleware\Unauthorized;
 use app\models\User;
@@ -11,9 +12,9 @@ use app\models\User;
 class ProfileController extends Controller
 {
 
-    public function __construct()
+    public function __construct(protected AuthService $authService)
     {
-        $this->addMiddleware(new Unauthorized(['profile']));
+        $this->addMiddleware(new Unauthorized(['profile'], $this->authService));
     }
 
     public function profile() {

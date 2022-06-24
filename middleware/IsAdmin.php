@@ -7,11 +7,9 @@ use app\core\Response;
 
 class IsAdmin extends Middleware
 {
-    private array $pages;
 
-    public function __construct($pages)
+    public function __construct(protected array $pages, $authService)
     {
-        $this->pages = $pages;
     }
 
     public function handle()
