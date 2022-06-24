@@ -22,7 +22,7 @@ class PortfolioController extends Controller
     }
 
     public function portfolio() {
-        $user = Application::$app->getUser();
+        $user = $this->authService->getUser();
         $wallet = Wallet::getWalletByUser($user);
 
         $cryptowallets = CryptoWallet::findAll(['wallet_id'=>$wallet->id]);
@@ -60,12 +60,6 @@ class PortfolioController extends Controller
         echo $secondCurrency;
 
         CryptoWallet::exchangeCurrency($firstCurrency, $amount, $secondCurrency);
-        /*
-        $statement = Application::$app->database->connection->prepare("update crypto_wallet
-                                                                     set amount = $new_amount
-                                                                     where wallet_id = $wallet_id and crypto_short = '$short'");
-        $statement->execute();
-        */
 
         $this->redirect('/portfolio');
     }

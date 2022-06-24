@@ -3,6 +3,7 @@
 namespace app\core\services;
 
 use app\core\Application;
+use app\core\Controller;
 use app\core\Response;
 use app\models\Session as sessionModel;
 use app\models\User;
@@ -11,7 +12,7 @@ class AuthService
 {
 
     public function __construct(
-        protected Response $response
+        protected Response $response,
     )
     {
     }
@@ -51,9 +52,7 @@ class AuthService
     }
 
     public function isAdmin() {
-        $user = Application::$app->getUser();
-
-        var_dump($user);
+        $user = $this->getUser();
 
         if ($user->role != 'admin') {
             return false;

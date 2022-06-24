@@ -2,7 +2,9 @@
 
 namespace app\core;
 
+use app\core\services\AuthService;
 use app\middleware\Middleware;
+use stdClass;
 
 class Controller
 {
@@ -10,9 +12,8 @@ class Controller
     private array $middlewares = [];
     private string $page;
 
-    public function render($view, $params) {
-        return Application::$container->get(View::class)->view($view, $params);
-
+    public function __construct(protected AuthService $authService)
+    {
     }
 
     public function redirect($url)
@@ -26,6 +27,15 @@ class Controller
 
     public function getMiddleware() {
         return $this->middlewares;
+    }
+
+    public function getUserData() {
+        $data = new stdClass();
+        $data->loggedin = $this->authService->LoggedIn();
+        $data->user = $this->authService->getUser();
+        $data->admin = $this->authService->isAdmin();
+
+        return $data;
     }
 
     public function setPage($page) {

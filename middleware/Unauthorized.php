@@ -18,7 +18,7 @@ class Unauthorized extends Middleware
 
     public function handle()
     {
-        if (!Application::$app->LoggedIn()) {
+        if (!$this->authService->LoggedIn()) {
 
             if ($this->pages === []) {
                 Application::$app->container->get(Response::class)->statusCode(401);

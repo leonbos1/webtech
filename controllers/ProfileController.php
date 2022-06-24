@@ -18,13 +18,14 @@ class ProfileController extends Controller
     }
 
     public function profile() {
-        $user = Application::$app->getUser();
+        $user = $this->authService->getUser();
         $username = $user->username;
         $created_at = $user->created_at;
 
         $params = [
             'user'=>$username,
             'created_at'=>$created_at,
+            'userdata', $this->getUserData()
         ];
 
         Template::view('profile.html', $params);
