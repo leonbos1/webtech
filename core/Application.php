@@ -3,27 +3,27 @@
 namespace app\core;
 
 use app\core\container\Container;
-use app\core\Session;
 use app\models\Session as sessionModel;
 use app\models\User;
 
 class Application
 {
     public static Application $app;
-    public Request $request;
-    public View $view;
-    public Database $database;
-    public static string $root_directory;
-    public string $layout = 'main';
-    public Container $container;
+    private View $view;
+    private Database $database;
+    private static string $root_directory;
+    private string $layout = 'main';
+    private Container $container;
 
     public function __construct(Container $container,$path, array $config, protected ?Router $router = null)
     {
         $this->container = $container;
         self::$app = $this;
         self::$root_directory = $path;
-        $this->view = new View();
+        $this->view = $container->get('app\core\View');
         $this->database = new Database($config['database']);
+        $this->response = $container->get('app\core\Response');
+        $this->controller = $container->get('app\core\Controller');
         session_start();
     }
 
@@ -32,9 +32,14 @@ class Application
         echo $this->router->resolve();
     }
 
-    public function LoggedIn() {
+    public function getDatabase() {
+        return $this->database;
+    }
 
-        $session_id = Application::$app->container->resolve(Response::class)->getCookie('session_id');
+    public function LoggedIn() {
+        $response = $this->container->get(Response::class);
+
+        $session_id = $response->getCookie('session_id');
 
         if (!isset($session_id)) {
             return false;
@@ -53,7 +58,7 @@ class Application
         $current_date = date("Y-m-d H:m:s");
 
         if ($current_date > $expire_date) {
-            Application::$app->container->get(Controller::class)->redirect('/logout');
+            $this->controller->redirect('/logout');
             return false;
         }
         return true;
@@ -61,7 +66,7 @@ class Application
     }
 
     public function getUser() {
-        $session_id = Application::$app->container->resolve(Response::class)->getCookie('session_id');
+        $session_id = $this->response->getCookie('session_id');
         $session = sessionModel::findOne(['session_id' => $session_id]);
         $user_id = $session->user_id;
         return User::findOne(['id'=>$user_id]);
@@ -74,6 +79,11 @@ class Application
             return false;
         }
         return true;
+    }
+
+    public function getContainer()
+    {
+        return $this->container;
     }
 
 }

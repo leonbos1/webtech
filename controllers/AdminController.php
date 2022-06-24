@@ -5,12 +5,10 @@ namespace app\controllers;
 use app\core\Application;
 use app\core\Controller;
 use app\core\Request;
-
 use app\core\Template;
 use app\middleware\IsAdmin;
 use app\middleware\Unauthorized;
 use app\models\Crypto;
-use app\models\Exchange;
 
 class AdminController extends Controller
 {
@@ -18,6 +16,8 @@ class AdminController extends Controller
     {
         $this->addMiddleware(new Unauthorized(['admin']));
         $this->addMiddleware(new IsAdmin(['admin']));
+        $this->container = Application::$app->getContainer();
+        $this->controler = $this->container->get('app\core\controller');
     }
 
     public function admin() {
@@ -37,7 +37,7 @@ class AdminController extends Controller
 
            $crypto->save();
        }
-       Application::$app->controller->redirect('/admin');
+       $this->controler->redirect('/admin');
 
    }
 }

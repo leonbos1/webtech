@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\core\Application;
+use app\core\container\Container;
 use app\core\Controller;
 use app\core\Request;
 use app\core\Template;
@@ -13,9 +14,15 @@ use app\models\Wallet;
 
 class WalletController extends Controller
 {
+    private Container $container;
+    private Controller $controller;
+    private Controller $request;
+
     public function __construct()
     {
         $this->addMiddleware(new Unauthorized(['wallet']));
+        $this->container = Application::$app->getContainer();
+        $this->controller = $this->container->get('app\core\Controller');
     }
 
     public function wallet() {
@@ -43,10 +50,10 @@ class WalletController extends Controller
 
     public function addEuros() {
 
-        $amount = Application::$app->container->get(Request::class)->getBody()['add_euro'];
+        $amount = $this->container->get(Request::class)->getBody()['add_euro'];
 
         CryptoWallet::addEuro($amount);
 
-        Application::$app->container->get(Controller::class)->redirect('/wallet');
+        $this->controller->redirect('/wallet');
     }
 }

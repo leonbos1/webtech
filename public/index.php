@@ -1,14 +1,14 @@
 <?php
 
 use app\controllers\AdminController;
-use app\controllers\PortfolioController;
-use app\controllers\ProfileController;
-use app\controllers\WalletController;
-use app\core\Application;
+use app\controllers\ExchangeController;
 use app\controllers\HomeController;
 use app\controllers\LoginController;
+use app\controllers\PortfolioController;
+use app\controllers\ProfileController;
 use app\controllers\RegisterController;
-use app\controllers\ExchangeController;
+use app\controllers\WalletController;
+use app\core\Application;
 use app\core\container\Container;
 use app\core\Router;
 use app\models\Crypto;
@@ -26,8 +26,7 @@ $config = [
 ];
 
 $container = new Container();
-
-$router = $container->get(Router::class);
+$router = new Router($container);
 
 $app = new Application($container,dirname(__DIR__), $config, $router);
 

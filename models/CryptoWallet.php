@@ -50,7 +50,7 @@ class CryptoWallet extends DatabaseModel
             $new_amount = $old_amount + $amount;
 
             $wallet = Wallet::getWalletByUser(Application::$app->getUser());
-            $statement = Application::$app->database->connection->prepare("update crypto_wallet
+            $statement = Application::$app->getDatabase()->connection->prepare("update crypto_wallet
                                                                                  set amount = $new_amount
                                                                                  where wallet_id = $wallet->id and crypto_short = 'eu'");
 
@@ -105,13 +105,13 @@ class CryptoWallet extends DatabaseModel
             $oldCurrency_new_amount = $oldCurrency_old_amount - $amount;
             if ($oldCurrency_new_amount >= 0) {
 
-                $statement = Application::$app->database->connection->prepare("update crypto_wallet
+                $statement = Application::$app->getDatabase()->connection->prepare("update crypto_wallet
                                                                                  set amount = $oldCurrency_new_amount
                                                                                  where wallet_id = $wallet->id and crypto_short = '$oldCurrency'");
 
                 $statement->execute();
 
-                $statement = Application::$app->database->connection->prepare("update crypto_wallet
+                $statement = Application::$app->getDatabase()->connection->prepare("update crypto_wallet
                                                                                  set amount = $newCurrency_new_amount
                                                                                  where wallet_id = $wallet->id and crypto_short = '$newCurrency'");
 

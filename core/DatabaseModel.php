@@ -19,7 +19,7 @@ abstract class DatabaseModel extends Model {
         $attribute = $this->attributes();
         $params = array_map(fn($attr) => ":$attr", $attribute);
 
-        $statement = Application::$app->database->connection->prepare("insert into $tableName (" . implode(',', $attribute) . ")
+        $statement = Application::$app->getDatabase()->connection->prepare("insert into $tableName (" . implode(',', $attribute) . ")
                                                               values(" . implode(',', $params) . ")");
 
         foreach ($attribute as $value) {
@@ -36,7 +36,7 @@ abstract class DatabaseModel extends Model {
         $tableName = static::tableName();
         $attributes = array_keys($where);
         $query = implode("AND ",array_map(fn($attr) => "$attr = :$attr", $attributes));
-        $statement = Application::$app->database->connection->prepare("select * from $tableName where $query");
+        $statement = Application::$app->getDatabase()->connection->prepare("select * from $tableName where $query");
         foreach ($where as $key => $item) {
             $statement->bindValue(":$key",$item);
         }
@@ -49,7 +49,7 @@ abstract class DatabaseModel extends Model {
         $tableName = static::tableName();
         $attributes = array_keys($where);
         $query = implode("AND ",array_map(fn($attr) => "$attr = :$attr", $attributes));
-        $statement = Application::$app->database->connection->prepare("select * from $tableName where $query");
+        $statement = Application::$app->getDatabase()->connection->prepare("select * from $tableName where $query");
         foreach ($where as $key => $item) {
             $statement->bindValue(":$key",$item);
         }
@@ -61,7 +61,7 @@ abstract class DatabaseModel extends Model {
     public static function getAll() {
         $tableName = static::tableName();
 
-        $statement = Application::$app->database->connection->prepare("select * from $tableName");
+        $statement = Application::$app->getDatabase()->connection->prepare("select * from $tableName");
 
         $statement->execute();
         return $statement->fetchAll();

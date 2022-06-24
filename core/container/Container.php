@@ -2,73 +2,88 @@
 
 namespace app\core\container;
 
-use app\core\container\exceptions\DependencyIsNotInstantiableException;
+
 use ReflectionClass;
 
 class Container implements ContainerInterface
 {
-    public array $entries = [];
+    private array $entries = [];
 
     public function get($id)
     {
-        if (!$this->has($id)) {
-            $this->set($id);
+        if ($this->has($id)) {
+            $entry = $this->entries[$id];
+
+            if (is_callable($entry)) {
+                return $entry($this);
+            }
+
+            $id = $entry;
         }
 
-        $concrete = $this->entries[$id];
-
-        return $this->resolve($concrete);
+        return $this->resolve($id);
     }
 
-    public function has($id)
+    public function has($id): bool
     {
         return isset($this->entries[$id]);
     }
 
-    public function set($id, $concrete = null)
+    public function resolve(string $id)
     {
-        if ($concrete === null) {
-            $concrete = $id;
+        try {
+            $reflectionClass = new ReflectionClass($id);
+        } catch(\ReflectionException $e) {
+            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
 
-        $this->entries[$id] = $concrete;
-    }
-
-    public function resolve($id)
-    {
-        $reflection = new ReflectionClass($id);
-
-        if (!$reflection->isInstantiable()) {
-            throw new DependencyIsNotInstantiableException("Class is not instantiable");
+        if (! $reflectionClass->isInstantiable()) {
+            throw new \Exception('Class "' . $id . '" is not instantiable');
         }
 
-        $constructor = $reflection->getConstructor();
-        if (is_null($constructor)) {
-            return $reflection->newInstance();
+        // 2. Inspect the constructor of the class
+        $constructor = $reflectionClass->getConstructor();
+
+        if (! $constructor) {
+            return new $id;
         }
 
-        $params = $constructor->getParameters();
-        $dependencies = $this->getDependencies($params, $reflection);
-        return $reflection->newInstanceArgs($dependencies);
-    }
+        // 3. Inspect the constructor parameters (dependencies)
+        $parameters = $constructor->getParameters();
 
-    private function getDependencies($params, $reflection) {
-        $dependencies = [];
+        if (! $parameters) {
+            return new $id;
+        }
 
-        foreach ($params as $param) {
-            $dependency = $param->getClass();
-            if (is_null($dependency)) {
-                if ($param->isDefaultValueAvailable()) {
-                    $dependencies[] = $param->getDefaultValue();
-                } else {
-                    throw new \Exception("No default value available");
+        // 4. If the constructor parameter is a class then try to resolve that class using the container
+        $dependencies = array_map(
+            function (\ReflectionParameter $param) use ($id) {
+                $name = $param->getName();
+                $type = $param->getType();
+
+                if (! $type) {
+                    throw new \Exception(
+                        'Failed to resolve class "' . $id . '" because param "' . $name . '" is missing a type hint'
+                    );
                 }
-            } else {
-                $dependencies[] = $this->get($dependency->name);
-            }
-        }
-        return $dependencies;
+
+                if ($type instanceof \ReflectionUnionType) {
+                    throw new \Exception(
+                        'Failed to resolve class "' . $id . '" because of union type for param "' . $name . '"'
+                    );
+                }
+
+                if ($type instanceof \ReflectionNamedType && ! $type->isBuiltin()) {
+                    return $this->get($type->getName());
+                }
+
+                throw new \Exception(
+                    'Failed to resolve class "' . $id . '" because invalid param "' . $name . '"'
+                );
+            },
+            $parameters
+        );
+
+        return $reflectionClass->newInstanceArgs($dependencies);
     }
-
-
 }
